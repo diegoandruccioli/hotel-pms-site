@@ -1,0 +1,31 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependencies and build output
+node_modules
+dist
+build
+.react-router
+*.tsbuildinfo
+
+# Test output
+coverage
+test-results
+playwright-report
+.lighthouseci
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.sw?
