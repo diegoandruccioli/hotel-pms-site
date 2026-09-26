@@ -15,6 +15,14 @@ site, it applies here unchanged.
 - NEVER push or open a PR without explicit confirmation
 - Before touching git history or any destructive command, ask first
 
+## Progress tracking
+
+- At the start of every session, read `docs/PROGRESS.md` before doing anything else
+- After every completed step (commit, merge, decision, gap found or closed) update
+  `docs/PROGRESS.md`: current state, phase table, known gaps, next steps, session log
+- A Stop hook (`.claude/hooks/check-progress.sh`) blocks the end of a turn while work is
+  not recorded there
+
 ## Commits and branches
 
 - Conventional Commits, English, imperative, ≤ 72 characters: `<type>(<scope>): <description>`
