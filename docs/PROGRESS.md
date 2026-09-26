@@ -11,7 +11,8 @@ Single source of truth for where the project stands. Updated after every complet
 - **Branch:** `fix/lighthouse-urls` (PR #8: Lighthouse config and robots.txt fix)
 - **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public; `main` pushed 2026-09-26 at `409bdf8`)
 - **Repo settings applied 2026-09-26:** wiki and projects off, rebase merge off, delete branch on merge, update-branch suggestion, topics, description, secret scanning + push protection, Dependabot alerts + security updates, workflow token read-only, no PR approval by Actions, approval for all external fork contributors, SHA pinning required
-- **Pending on GitHub:** ruleset on `main` (needs a first CI run to expose check names), `production` environment (phase 5)
+- **Ruleset `Protect main` active (2026-09-26):** PR required (0 approvals), conversation resolution, up-to-date branch, required checks `Quality — …` and `Browser — …`, no force push, no deletion, no bypass
+- **Pending on GitHub:** `production` environment (phase 5)
 
 ## Phases
 
@@ -19,7 +20,7 @@ Single source of truth for where the project stands. Updated after every complet
 |---|---|---|---|
 | 0 Foundations | Done, except branch protection (needs first push and CI run) | `fed6260` | Public repo with written policies |
 | 1 Scaffold | Done | `e7966fd`, merge `991a7db` | `npm run build` prerenders `/` (EN) and `/it/` |
-| 2 CI | First CI run on `main` (2026-09-26): `quality` green, `browser` red (Lighthouse accessibility 0.86 and SEO 0.80 on both pages). Cause 1 (confirmed): URLs `/index.html` and `/it/index.html` match no client route, so hydration dropped `<title>` and meta description; fixed by auditing the preview server URLs. Cause 2 (confirmed from the CI artifact): `robots-txt` audit failed because `/robots.txt` fell back to HTML; fixed with `public/robots.txt`. Both in PR #8, awaiting CI | `26dd637`, merge `4aa2d85` | An empty PR passes every job |
+| 2 CI | First CI run on `main` (2026-09-26): `quality` green, `browser` red (Lighthouse accessibility 0.86 and SEO 0.80 on both pages). Cause 1 (confirmed): URLs `/index.html` and `/it/index.html` match no client route, so hydration dropped `<title>` and meta description; fixed by auditing the preview server URLs. Cause 2 (confirmed from the CI artifact): `robots-txt` audit failed because `/robots.txt` fell back to HTML; fixed with `public/robots.txt`. Both in PR #8: CI green on both jobs (2026-09-26); phase 2 closes when PR #8 is merged | `26dd637`, merge `4aa2d85` | An empty PR passes every job |
 | 3 Design system | Not started | — | axe green on all four themes |
 | 4 Content | Not started | — | Lighthouse ≥ 95 everywhere, every claim has a source |
 | 5 Publishing | Not started | — | Site live, A+ on securityheaders.com, no CSP violations |
@@ -55,17 +56,17 @@ Measured against the plan on 2026-09-26.
 
 ## Next steps
 
-1. Push `fix/lighthouse-urls`, open a PR, confirm both CI jobs go green (closes phase 2).
+1. Merge PR #8 into `main` (CI green), which closes phase 2.
 2. Author email decided: history stays as is (it mixes `diego.andruccioli@studio.unibo.it` and `andrucciolidiego@gmail.com`, both become public); every new commit uses `andrucciolidiego@gmail.com` (set in the repo-local git config).
-3. Once CI is green on the PR, create the ruleset requiring the two check names: `Quality — ESLint · madge · knip · TypeScript · Build · Vitest · audit` and `Browser — Playwright + axe · Lighthouse`.
-4. Decide whether to fix the phase 0–2 gaps above in one small branch before phase 3.
-5. Phase 3: M3 `--md-*` tokens and four themes from hotel-pms `m3-base.css`, self-hosted
+3. Before phase 3, small branch for the easy gaps (`--max-warnings 0`, `SkipLink` test, `.editorconfig`, `.nvmrc`).
+4. Phase 3: M3 `--md-*` tokens and four themes from hotel-pms `m3-base.css`, self-hosted
    fonts, base components.
 
 ## Session log
 
 Newest first. One line per completed step: date, what, commit.
 
+- 2026-09-26 — PR #8 CI green after adding `public/robots.txt`; created ruleset `Protect main`.
 - 2026-09-26 — Merged `feature/progress-tracking` (`409bdf8`) and pushed `main` to origin. First CI run: `quality` green, `browser` red on Lighthouse (see phase 2). Lighthouse config switched to the preview server URLs in `fix/lighthouse-urls` (PR #8); the rerun showed accessibility fixed but SEO 0.92 from an invalid `robots.txt`, so `public/robots.txt` was added.
 - 2026-09-26 — License decided: MIT (`LICENSE`, README updated).
 - 2026-09-26 — Decision: keep existing commit emails, use `andrucciolidiego@gmail.com` for all new commits.
