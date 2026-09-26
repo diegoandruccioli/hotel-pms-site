@@ -35,7 +35,8 @@ This is a static site: no backend, no authentication, no cookies, no forms, no u
 
 ## Controls
 
-- Strict CSP without `'unsafe-inline'` or `blob:`, `frame-ancestors 'none'`, HSTS, `nosniff`
+- Strict CSP without `'unsafe-inline'` or `blob:` (the inline hydration scripts are allowed by
+  SHA-256 hash, regenerated at every build), `frame-ancestors 'none'`, HSTS, `nosniff`
   (served through Cloudflare Pages `_headers`; verified automatically after every deploy)
 - Zero cookies, zero third-party analytics or CDN requests
 - Contact via `mailto:` only, so no personal data is collected
@@ -44,6 +45,11 @@ This is a static site: no backend, no authentication, no cookies, no forms, no u
   `production` environment with required approval
 - Dependabot weekly with a 7-day cooldown
 
+See [`THREAT_MODEL.md`](THREAT_MODEL.md) for threats and mitigations.
+
 ## Known accepted risks
 
-None recorded yet. Any accepted risk will be listed here with its rationale, as in hotel-pms.
+- Single maintainer: the `production` environment approval is self-approval, so it guards against
+  mistakes, not against a compromised GitHub account (2FA is the mitigation).
+- HSTS `preload` is not enabled; a first visit could be downgraded before HSTS is learned.
+- Headers are verified after publishing, so a bad deploy is live until the check fails and it is fixed.

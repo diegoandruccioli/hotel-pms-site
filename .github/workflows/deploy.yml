@@ -1,0 +1,102 @@
+name: Deploy to Cloudflare Pages
+
+# ── Triggers ──────────────────────────────────────────────────────────────────
+# Deploy only what the quality gate approved: a green CI run on a push to main.
+# workflow_dispatch redeploys the current main manually.
+on:
+  workflow_run:
+    workflows: ["CI Quality Gate"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+# Never interrupt a deploy that is already running.
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+# ══════════════════════════════════════════════════════════════════════════════
+jobs:
+
+  # ── Job 1: Build the exact commit the quality gate approved ─────────────────
+  build:
+    name: "Build — prerendered site and _headers"
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Set up Node 24
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload site
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: site
+          path: build/client
+          if-no-files-found: error
+
+  # ── Job 2: Publish (production environment: approval + main only) ───────────
+  deploy:
+    name: "Deploy — Cloudflare Pages"
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://hotel-pms-site.pages.dev
+    permissions:
+      contents: read
+      deployments: write
+
+    steps:
+      - name: Download site
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: site
+          path: site
+
+      - name: Deploy with Wrangler
+        uses: cloudflare/wrangler-action@953926a2e2182532811c01a25e53647d93bf07c0 # v4.1.3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy site --project-name=hotel-pms-site --branch=main
+
+  # ── Job 3: Verify the published headers ─────────────────────────────────────
+  verify:
+    name: "Verify — security headers on the live site"
+    needs: deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Set up Node 24
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: "24"
+
+      - name: Check headers
+        run: npm run verify:headers -- https://hotel-pms-site.pages.dev/

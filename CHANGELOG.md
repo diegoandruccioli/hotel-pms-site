@@ -13,5 +13,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - CI: `ci.yml` quality gate (ESLint, madge, knip, typecheck + build, Vitest coverage,
   `npm audit`, Playwright + axe, Lighthouse CI ≥ 95) with SHA-pinned actions and minimal
   permissions; `dependabot.yml` for `npm` and `github-actions` (weekly, 7-day cooldown)
+- Publishing: `scripts/generate-headers.ts` writes Cloudflare Pages `_headers` at build time (strict
+  CSP with SHA-256 hashes for the inline scripts, HSTS, COOP/COEP/CORP, immutable asset caching);
+  `deploy.yml` (build, deploy to Cloudflare Pages from a green CI run on `main`, header verification);
+  `THREAT_MODEL.md`; `robots.txt`
 - Quality gates: ESLint (zero warnings), madge, knip, Vitest with coverage thresholds and
   `vitest-axe`, Playwright + axe (WCAG A/AA/AAA tags) against the prerendered output
