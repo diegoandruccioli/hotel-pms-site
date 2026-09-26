@@ -51,5 +51,7 @@ See [`THREAT_MODEL.md`](THREAT_MODEL.md) for threats and mitigations.
 
 - Single maintainer: the `production` environment approval is self-approval, so it guards against
   mistakes, not against a compromised GitHub account (2FA is the mitigation).
+- Cloudflare Pages adds `Access-Control-Allow-Origin: *` to static files; acceptable because the
+  site serves only public content and no credentials or cookies.
 - HSTS `preload` is not enabled; a first visit could be downgraded before HSTS is learned.
 - Headers are verified after publishing, so a bad deploy is live until the check fails and it is fixed.
