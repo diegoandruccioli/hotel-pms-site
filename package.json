@@ -12,7 +12,7 @@
     "typecheck": "react-router typegen && tsc",
     "build": "react-router typegen && tsc && react-router build && node scripts/generate-headers.ts",
     "verify:headers": "node scripts/verify-headers.ts",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings 0",
     "lint:cycles": "madge --circular --extensions ts,tsx --ts-config tsconfig.json app",
     "knip": "knip",
     "preview": "vite preview --outDir build/client --port 4173",

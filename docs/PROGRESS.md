@@ -7,7 +7,7 @@ Single source of truth for where the project stands. Updated after every complet
 
 - **Active phase:** phases 0, 1, 2 and 5 done (publishing was built ahead of 3 and 4 so that only the page itself is left); phases 3 (design system) and 4 (content) not started
 - **Last updated:** 2026-09-26
-- **Branch:** `docs/phase5-done` (this log update); `main` at `b9299f5` after PR #10
+- **Branch:** `chore/quality-gaps` (phase 3 step 1, stacked on `docs/phase5-done` = PR #11); `main` at `b9299f5` after PR #10
 - **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public; `main` pushed 2026-09-26 at `409bdf8`)
 - **Repo settings applied 2026-09-26:** wiki and projects off, rebase merge off, delete branch on merge, update-branch suggestion, topics, description, secret scanning + push protection, Dependabot alerts + security updates, workflow token read-only, no PR approval by Actions, approval for all external fork contributors, SHA pinning required
 - **Ruleset `Protect main` active (2026-09-26):** PR required (0 approvals), conversation resolution, up-to-date branch, required checks `Quality — …` and `Browser — …`, no force push, no deletion, no bypass
@@ -41,16 +41,13 @@ Single source of truth for where the project stands. Updated after every complet
 
 Measured against the plan on 2026-09-26.
 
-- `npm run lint` is `eslint .` without `--max-warnings 0` (`package.json:14`), so warnings
-  do not fail the gate that the project rules call "zero warnings".
 - `@fontsource/*` and `material-symbols` are not installed; the project rules require them (phase 3).
 - `CONTRIBUTING.md:57` cites `src/content/claims.ts`, but the code lives in
   `app/`. Decide the path in phase 4 and fix the docs.
 - `app/app.css` uses raw hex, and `LanguageSwitcher.tsx:30` and `SkipLink.tsx:10` use raw
   Tailwind colors. The project rules forbid raw hex; phase 3 replaces them with `--md-*` tokens.
-- `SkipLink` has no component test of its own (no axe check), only coverage through `HomePage`.
 - `public/` has only `robots.txt`; still missing favicon, sitemap, OG image (`_headers` is generated at build time by `scripts/generate-headers.ts`),
-  no `.editorconfig`, no `.nvmrc`, no PR or issue templates.
+  no PR or issue templates.
 - Cloudflare adds `Access-Control-Allow-Origin: *` to static files; harmless for a site with no private data, listed as an accepted risk in `SECURITY.md`.
 - securityheaders.com grade not checked yet (target A+); Lighthouse on the live URL not run yet.
 
@@ -58,7 +55,7 @@ Measured against the plan on 2026-09-26.
 
 1. Phase 3 (design system) and phase 4 (content): only the page itself is left to build; every merge to `main` deploys after approval.
 2. Author email decided: history stays as is (it mixes `diego.andruccioli@studio.unibo.it` and `andrucciolidiego@gmail.com`, both become public); every new commit uses `andrucciolidiego@gmail.com` (set in the repo-local git config).
-3. Before phase 3, small branch for the easy gaps (`--max-warnings 0`, `SkipLink` test, `.editorconfig`, `.nvmrc`).
+3. Phase 3 steps: 1 quality gaps (done locally), 2 tokens and four themes, 3 fonts and icons, 4 theme and contrast switches, 5 base components.
 4. Phase 3: M3 `--md-*` tokens and four themes from hotel-pms `m3-base.css`, self-hosted
    fonts, base components.
 
@@ -66,6 +63,7 @@ Measured against the plan on 2026-09-26.
 
 Newest first. One line per completed step: date, what, commit.
 
+- 2026-09-26 — Phase 3 step 1 (local, not pushed): `npm run lint` now `--max-warnings 0`, `SkipLink` test with axe, `.editorconfig`, `.nvmrc` (24). 31 tests pass.
 - 2026-09-26 — Phase 5 done. PR #10 merged (`b9299f5`); CI green on `main`; deploy approved in `production`; `deploy` and `verify` jobs green; https://hotel-pms-site.pages.dev serves `/` and `/it/` with no console errors. A first manual Direct Upload of `build/client` had created the Pages project.
 - 2026-09-26 — PR #9 merged (`28e1999`); PR #10 opened for phase 5. Cloudflare account exists, no Pages project yet.
 - 2026-09-26 — Phase 5 code on `feature/publishing`: `scripts/headers.ts` (CSP with SHA-256 hashes for the 8 inline hydration scripts, security headers, asset caching), `generate-headers.ts` (runs in `npm run build`), `verify-headers.ts`, `deploy.yml` (build, deploy, verify; wrangler-action pinned to `953926a`), `THREAT_MODEL.md`, SECURITY and CHANGELOG updated. Lint, knip, 28 tests and build pass. Built site served with the generated headers showed no CSP errors in the browser console.
