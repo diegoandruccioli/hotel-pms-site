@@ -55,6 +55,8 @@ const THEMES = [
 for (const page of PAGES) {
   for (const theme of THEMES) {
     test(`${page.path} has no axe violations in the ${theme.name} theme`, async ({ page: browserPage }) => {
+      // The global colour transition would let axe sample mid-fade colours.
+      await browserPage.emulateMedia({ reducedMotion: "reduce" });
       await browserPage.goto(page.path);
       await browserPage.evaluate(({ theme: t, contrast }) => {
         document.documentElement.setAttribute("data-theme", t);
@@ -67,3 +69,46 @@ for (const page of PAGES) {
     });
   }
 }
+
+test.describe("appearance follows the browser until the visitor chooses", () => {
+  test.describe("with a dark, more-contrast browser", () => {
+    test.use({ colorScheme: "dark", contrast: "more" });
+
+    test("starts dark and high contrast before first paint", async ({ page }) => {
+      await page.goto("/");
+      await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+      await expect(page.locator("html")).toHaveAttribute("data-contrast", "high");
+    });
+
+    test("a saved choice wins over the browser preference", async ({ page }) => {
+      await page.addInitScript(() => {
+        localStorage.setItem("theme", "light");
+        localStorage.setItem("contrast", "normal");
+      });
+      await page.goto("/it/");
+      await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+      await expect(page.locator("html")).toHaveAttribute("data-contrast", "normal");
+    });
+  });
+
+  test("the switches work from the keyboard and survive a reload", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+
+    const dark = page.getByRole("button", { name: "Dark theme" });
+    await dark.focus();
+    await page.keyboard.press("Enter");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    await expect(dark).toHaveAttribute("aria-pressed", "true");
+
+    const contrast = page.getByRole("button", { name: "High contrast" });
+    await contrast.focus();
+    await page.keyboard.press("Space");
+    await expect(page.locator("html")).toHaveAttribute("data-contrast", "high");
+
+    await page.reload();
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    await expect(page.locator("html")).toHaveAttribute("data-contrast", "high");
+    await expect(page.getByRole("button", { name: "Dark theme" })).toHaveAttribute("aria-pressed", "true");
+  });
+});

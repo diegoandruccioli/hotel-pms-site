@@ -5,6 +5,9 @@
   "label_language": "Language",
   "action_switch_to_en": "Switch language to English",
   "action_switch_to_it": "Switch language to Italian",
+  "label_appearance": "Appearance",
+  "action_dark_theme": "Dark theme",
+  "action_high_contrast": "High contrast",
   "hero_title": "Hotel PMS",
   "hero_tagline": "A property management system for Italian hotels, built as microservices and documented honestly.",
   "status_under_construction": "This showcase is under construction."

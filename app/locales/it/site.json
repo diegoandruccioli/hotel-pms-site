@@ -5,6 +5,9 @@
   "label_language": "Lingua",
   "action_switch_to_en": "Passa alla lingua inglese",
   "action_switch_to_it": "Passa alla lingua italiana",
+  "label_appearance": "Aspetto",
+  "action_dark_theme": "Tema scuro",
+  "action_high_contrast": "Alto contrasto",
   "hero_title": "Hotel PMS",
   "hero_tagline": "Un gestionale per gli hotel italiani, costruito a microservizi e documentato con onestà.",
   "status_under_construction": "Questa vetrina è in costruzione."
