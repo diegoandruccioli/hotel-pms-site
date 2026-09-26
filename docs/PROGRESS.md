@@ -8,7 +8,7 @@ Single source of truth for where the project stands. Updated after every complet
 
 - **Active phase:** between phase 2 and phase 3 (design system not started)
 - **Last updated:** 2026-09-26
-- **Branch:** `fix/lighthouse-urls` (Lighthouse config fix, not pushed yet)
+- **Branch:** `fix/lighthouse-urls` (PR #8: Lighthouse config and robots.txt fix)
 - **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public; `main` pushed 2026-09-26 at `409bdf8`)
 - **Repo settings applied 2026-09-26:** wiki and projects off, rebase merge off, delete branch on merge, update-branch suggestion, topics, description, secret scanning + push protection, Dependabot alerts + security updates, workflow token read-only, no PR approval by Actions, approval for all external fork contributors, SHA pinning required
 - **Pending on GitHub:** ruleset on `main` (needs a first CI run to expose check names), `production` environment (phase 5)
@@ -19,7 +19,7 @@ Single source of truth for where the project stands. Updated after every complet
 |---|---|---|---|
 | 0 Foundations | Done, except branch protection (needs first push and CI run) | `fed6260` | Public repo with written policies |
 | 1 Scaffold | Done | `e7966fd`, merge `991a7db` | `npm run build` prerenders `/` (EN) and `/it/` |
-| 2 CI | First CI run on `main` (2026-09-26): `quality` green, `browser` red (Lighthouse accessibility 0.86 and SEO 0.80 on both pages). Suspected cause: URLs `/index.html` and `/it/index.html` match no client route, so hydration drops `<title>` and meta description. Fix in `fix/lighthouse-urls`, unverified | `26dd637`, merge `4aa2d85` | An empty PR passes every job |
+| 2 CI | First CI run on `main` (2026-09-26): `quality` green, `browser` red (Lighthouse accessibility 0.86 and SEO 0.80 on both pages). Cause 1 (confirmed): URLs `/index.html` and `/it/index.html` match no client route, so hydration dropped `<title>` and meta description; fixed by auditing the preview server URLs. Cause 2 (confirmed from the CI artifact): `robots-txt` audit failed because `/robots.txt` fell back to HTML; fixed with `public/robots.txt`. Both in PR #8, awaiting CI | `26dd637`, merge `4aa2d85` | An empty PR passes every job |
 | 3 Design system | Not started | — | axe green on all four themes |
 | 4 Content | Not started | — | Lighthouse ≥ 95 everywhere, every claim has a source |
 | 5 Publishing | Not started | — | Site live, A+ on securityheaders.com, no CSP violations |
@@ -49,7 +49,7 @@ Measured against the plan on 2026-09-26.
 - `app/app.css` uses raw hex, and `LanguageSwitcher.tsx:30` and `SkipLink.tsx:10` use raw
   Tailwind colors. `CLAUDE.md` forbids raw hex; phase 3 replaces them with `--md-*` tokens.
 - `SkipLink` has no component test of its own (no axe check), only coverage through `HomePage`.
-- No `public/` (favicon, robots, sitemap, `_headers`, OG image),
+- `public/` has only `robots.txt`; still missing favicon, sitemap, `_headers`, OG image,
   no `.editorconfig`, no `.nvmrc`, no PR or issue templates.
 - No deploy workflow, no `production` environment, no `THREAT_MODEL.md` (all phase 5).
 
@@ -66,7 +66,7 @@ Measured against the plan on 2026-09-26.
 
 Newest first. One line per completed step: date, what, commit.
 
-- 2026-09-26 — Merged `feature/progress-tracking` (`409bdf8`) and pushed `main` to origin. First CI run: `quality` green, `browser` red on Lighthouse (see phase 2). Lighthouse config switched to the preview server URLs in `fix/lighthouse-urls`.
+- 2026-09-26 — Merged `feature/progress-tracking` (`409bdf8`) and pushed `main` to origin. First CI run: `quality` green, `browser` red on Lighthouse (see phase 2). Lighthouse config switched to the preview server URLs in `fix/lighthouse-urls` (PR #8); the rerun showed accessibility fixed but SEO 0.92 from an invalid `robots.txt`, so `public/robots.txt` was added.
 - 2026-09-26 — License decided: MIT (`LICENSE`, README updated).
 - 2026-09-26 — Decision: keep existing commit emails, use `andrucciolidiego@gmail.com` for all new commits.
 - 2026-09-26 — Connected `origin` to the new GitHub repo and applied repo, security and Actions settings via `gh api` (no push yet).
