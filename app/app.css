@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @import "./styles/tokens.css";
+@import "@fontsource/inter/latin-400.css";
+@import "@fontsource/inter/latin-600.css";
+@import "@fontsource/outfit/latin-600.css";
 
 @theme {
   --color-primary: var(--md-primary);
@@ -43,6 +46,9 @@
 
   --color-scrim: var(--md-scrim);
 
+  --font-display: Outfit, system-ui, sans-serif;
+  --font-body: Inter, system-ui, sans-serif;
+
   --shadow-elevation-0: none;
   --shadow-elevation-1: var(--md-elevation-1);
   --shadow-elevation-2: var(--md-elevation-2);
@@ -62,7 +68,7 @@
   html {
     background-color: var(--md-surface);
     color: var(--md-on-surface);
-    font-family: system-ui, sans-serif;
+    font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
   }
 

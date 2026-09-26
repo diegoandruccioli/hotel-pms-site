@@ -41,7 +41,7 @@ Single source of truth for where the project stands. Updated after every complet
 
 Measured against the plan on 2026-09-26.
 
-- `@fontsource/*` and `material-symbols` are not installed; the project rules require them (phase 3).
+- `material-symbols` is not installed yet: its full icon font is several MB, so it is added together with the first icon (phase 4), subset or replaced by inline SVG to stay within the page weight budget.
 - `CONTRIBUTING.md:57` cites `src/content/claims.ts`, but the code lives in
   `app/`. Decide the path in phase 4 and fix the docs.
 - `public/` has only `robots.txt`; still missing favicon, sitemap, OG image (`_headers` is generated at build time by `scripts/generate-headers.ts`),
@@ -61,6 +61,7 @@ Measured against the plan on 2026-09-26.
 
 Newest first. One line per completed step: date, what, commit.
 
+- 2026-09-26 — Phase 3 step 3 (local, not pushed): self-hosted `@fontsource/inter` (400, 600) and `@fontsource/outfit` (600), latin subset only (about 62 kB of woff2), wired into `app/app.css`; headings use `font-display`. Knip told to ignore the two font packages (imported from CSS). Icons deferred, see Known gaps.
 - 2026-09-26 — Phase 3 step 2 (local, not pushed): `app/styles/tokens.css` with the four themes (light, dark, light HC, dark HC; `data-theme` and `data-contrast` on `<html>`), Tailwind `@theme` mapping in `app/app.css`, `SkipLink` and `LanguageSwitcher` on tokens. `tokens.test.ts` enforces full token sets, 7:1 text contrast and 3:1 outline in every theme; it caught three dark tokens below 7:1 in the hotel-pms originals (secondary-container, tertiary-container, on-surface-variant), now adjusted. E2E runs axe (WCAG A to AAA) in all four themes on both pages. 44 unit tests and 16 e2e tests pass.
 - 2026-09-26 — Phase 3 step 1 (local, not pushed): `npm run lint` now `--max-warnings 0`, `SkipLink` test with axe, `.editorconfig`, `.nvmrc` (24). 31 tests pass.
 - 2026-09-26 — Phase 5 done. PR #10 merged (`b9299f5`); CI green on `main`; deploy approved in `production`; `deploy` and `verify` jobs green; https://hotel-pms-site.pages.dev serves `/` and `/it/` with no console errors. A first manual Direct Upload of `build/client` had created the Pages project.
