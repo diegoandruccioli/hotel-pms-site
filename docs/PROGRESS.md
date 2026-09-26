@@ -56,7 +56,7 @@ Measured against the plan on 2026-09-26.
 ## Next steps
 
 1. Merge `feature/progress-tracking` into `main` once approved, then first push.
-2. Resolve author email (history mixes `diego.andruccioli@studio.unibo.it` and `andrucciolidiego@gmail.com`; both would become public) and choose a license.
+2. Choose a license. Author email decided: history stays as is (it mixes `diego.andruccioli@studio.unibo.it` and `andrucciolidiego@gmail.com`, both become public); every new commit uses `andrucciolidiego@gmail.com` (set in the repo-local git config).
 3. Open a test PR so `ci.yml` runs, then create the ruleset requiring the two check names: `Quality — ESLint · madge · knip · TypeScript · Build · Vitest · audit` and `Browser — Playwright + axe · Lighthouse`.
 4. Decide whether to fix the phase 0–2 gaps above in one small branch before phase 3.
 5. Phase 3: M3 `--md-*` tokens and four themes from hotel-pms `m3-base.css`, self-hosted
@@ -66,6 +66,7 @@ Measured against the plan on 2026-09-26.
 
 Newest first. One line per completed step: date, what, commit.
 
+- 2026-09-26 — Decision: keep existing commit emails, use `andrucciolidiego@gmail.com` for all new commits.
 - 2026-09-26 — Connected `origin` to the new GitHub repo and applied repo, security and Actions settings via `gh api` (no push yet).
 - 2026-09-26 — Rebuilt project state from the plan and the repo after a lost session; added
   this log and the tracking rule (`feature/progress-tracking`).
