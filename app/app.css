@@ -1,15 +1,95 @@
 @import "tailwindcss";
+@import "./styles/tokens.css";
+@import "@fontsource/inter/latin-400.css";
+@import "@fontsource/inter/latin-600.css";
+@import "@fontsource/outfit/latin-600.css";
 
-/* Placeholder base styles; the M3 design tokens and the four themes arrive in phase 3. */
-html {
-  background-color: #ffffff;
-  color: #000000;
-  font-family: system-ui, sans-serif;
+@theme {
+  --color-primary: var(--md-primary);
+  --color-on-primary: var(--md-on-primary);
+  --color-primary-container: var(--md-primary-container);
+  --color-on-primary-container: var(--md-on-primary-container);
+
+  --color-secondary: var(--md-secondary);
+  --color-on-secondary: var(--md-on-secondary);
+  --color-secondary-container: var(--md-secondary-container);
+  --color-on-secondary-container: var(--md-on-secondary-container);
+
+  --color-tertiary: var(--md-tertiary);
+  --color-on-tertiary: var(--md-on-tertiary);
+  --color-tertiary-container: var(--md-tertiary-container);
+  --color-on-tertiary-container: var(--md-on-tertiary-container);
+
+  --color-error: var(--md-error);
+  --color-on-error: var(--md-on-error);
+  --color-error-container: var(--md-error-container);
+  --color-on-error-container: var(--md-on-error-container);
+
+  --color-surface: var(--md-surface);
+  --color-on-surface: var(--md-on-surface);
+  --color-surface-variant: var(--md-surface-variant);
+  --color-on-surface-variant: var(--md-on-surface-variant);
+  --color-surface-dim: var(--md-surface-dim);
+  --color-surface-bright: var(--md-surface-bright);
+  --color-surface-container-lowest: var(--md-surface-container-lowest);
+  --color-surface-container-low: var(--md-surface-container-low);
+  --color-surface-container: var(--md-surface-container);
+  --color-surface-container-high: var(--md-surface-container-high);
+  --color-surface-container-highest: var(--md-surface-container-highest);
+
+  --color-outline: var(--md-outline);
+  --color-outline-variant: var(--md-outline-variant);
+
+  --color-inverse-surface: var(--md-inverse-surface);
+  --color-inverse-on-surface: var(--md-inverse-on-surface);
+  --color-inverse-primary: var(--md-inverse-primary);
+
+  --color-scrim: var(--md-scrim);
+
+  --font-display: Outfit, system-ui, sans-serif;
+  --font-body: Inter, system-ui, sans-serif;
+
+  --shadow-elevation-0: none;
+  --shadow-elevation-1: var(--md-elevation-1);
+  --shadow-elevation-2: var(--md-elevation-2);
+  --shadow-elevation-3: var(--md-elevation-3);
+  --shadow-elevation-4: var(--md-elevation-4);
+  --shadow-elevation-5: var(--md-elevation-5);
+
+  --radius-shape-xs: 4px;
+  --radius-shape-sm: 8px;
+  --radius-shape-md: 12px;
+  --radius-shape-lg: 16px;
+  --radius-shape-xl: 28px;
+  --radius-shape-full: 9999px;
 }
 
-:focus-visible {
-  outline: 3px solid #000000;
-  outline-offset: 2px;
+@layer base {
+  html {
+    color-scheme: light;
+    background-color: var(--md-surface);
+    color: var(--md-on-surface);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  html[data-theme="dark"] {
+    color-scheme: dark;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--md-primary);
+    outline-offset: 2px;
+  }
+
+  /* One global colour transition, as in hotel-pms; the reduced-motion rule below zeroes it. */
+  *,
+  *::before,
+  *::after {
+    transition-property: color, background-color, border-color, box-shadow, opacity;
+    transition-duration: 150ms;
+    transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

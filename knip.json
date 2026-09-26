@@ -1,6 +1,6 @@
 ﻿{
   "$schema": "https://unpkg.com/knip@6/schema.json",
   "project": ["app/**/*.{ts,tsx}", "e2e/**/*.ts", "scripts/**/*.ts"],
-  "ignoreDependencies": ["tailwindcss"],
+  "ignoreDependencies": ["tailwindcss", "@fontsource/inter", "@fontsource/outfit"],
   "ignoreExportsUsedInFile": true
 }
