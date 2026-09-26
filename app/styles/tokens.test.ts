@@ -69,7 +69,8 @@ const TEXT_PAIRS: [string, string][] = [
   ["inverse-on-surface", "inverse-surface"],
   ["inverse-primary", "inverse-surface"],
   ...SURFACES.map((surface): [string, string] => ["on-surface", surface]),
-  ...["surface", "surface-container-lowest", "surface-container-low"].map((surface): [string, string] => [
+  // Links and outlined buttons sit on these; dark surface-bright is a hover highlight, not a page background.
+  ...SURFACES.filter((surface) => surface !== "surface-bright").map((surface): [string, string] => [
     "primary",
     surface,
   ]),

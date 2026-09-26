@@ -5,7 +5,7 @@ Single source of truth for where the project stands. Updated after every complet
 
 ## Current state
 
-- **Active phase:** phases 0, 1, 2 and 5 done (publishing was built ahead of 3 and 4 so that only the page itself is left); phases 3 (design system) and 4 (content) not started
+- **Active phase:** phases 0, 1, 2 and 5 done (publishing was built ahead of 3 and 4 so that only the page itself is left); phase 3 (design system) built locally on `feature/design-system`, awaiting push and review; phase 4 (content) not started
 - **Last updated:** 2026-09-26
 - **Branch:** `feature/design-system` (phase 3, stacked on `chore/quality-gaps`, itself on `docs/phase5-done` = PR #11); `main` at `b9299f5` after PR #10
 - **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public; `main` pushed 2026-09-26 at `409bdf8`)
@@ -20,7 +20,7 @@ Single source of truth for where the project stands. Updated after every complet
 | 0 Foundations | Done (repo public, ruleset active) | `fed6260` | Public repo with written policies |
 | 1 Scaffold | Done | `e7966fd`, merge `991a7db` | `npm run build` prerenders `/` (EN) and `/it/` |
 | 2 CI | Done: PR #8 merged (`1468e51`). History: first CI run on `main` (2026-09-26): `quality` green, `browser` red (Lighthouse accessibility 0.86 and SEO 0.80 on both pages). Cause 1 (confirmed): URLs `/index.html` and `/it/index.html` match no client route, so hydration dropped `<title>` and meta description; fixed by auditing the preview server URLs. Cause 2 (confirmed from the CI artifact): `robots-txt` audit failed because `/robots.txt` fell back to HTML; fixed with `public/robots.txt`. Both in PR #8: CI green on both jobs (2026-09-26); phase 2 closed by the merge | `26dd637`, merge `4aa2d85` | An empty PR passes every job |
-| 3 Design system | Not started | — | axe green on all four themes |
+| 3 Design system | Built locally (steps 1 to 5), not pushed; axe AAA green on both pages in all four themes | `feature/design-system` | axe green on all four themes |
 | 4 Content | Not started | — | Lighthouse ≥ 95 everywhere, every claim has a source |
 | 5 Publishing | Done: first deploy through Actions succeeded, `verify` job green (2026-09-26) | PR #10, merge `b9299f5` | Site live, A+ on securityheaders.com, no CSP violations |
 
@@ -53,14 +53,14 @@ Measured against the plan on 2026-09-26.
 
 1. Phase 3 (design system) and phase 4 (content): only the page itself is left to build; every merge to `main` deploys after approval.
 2. Author email decided: history stays as is (it mixes `diego.andruccioli@studio.unibo.it` and `andrucciolidiego@gmail.com`, both become public); every new commit uses `andrucciolidiego@gmail.com` (set in the repo-local git config).
-3. Phase 3 steps: 1 quality gaps (done locally), 2 tokens and four themes, 3 fonts and icons, 4 theme and contrast switches, 5 base components.
-4. Phase 3: M3 `--md-*` tokens and four themes from hotel-pms `m3-base.css`, self-hosted
-   fonts, base components.
+3. Push and review phase 3 (`feature/design-system`, stacked on `chore/quality-gaps` and `docs/phase5-done`), then merge.
+4. Phase 4: content sections, `claims.ts` with sources, screenshots from seed data, SEO files.
 
 ## Session log
 
 Newest first. One line per completed step: date, what, commit.
 
+- 2026-09-26 — Phase 3 step 5 (local, not pushed): base components in `app/components/m3/` (`M3Button`, `M3ButtonLink`, `M3Card`, `M3StatusChip`) with variant lookup tables, `cn()` (`clsx` and `tailwind-merge`), a test with axe each. Colour pairs are limited to the ones `tokens.test.ts` proves at 7:1. The home page now uses them (View the code link, in-progress chip inside a card), so e2e axe covers them in all four themes. 63 unit and 19 e2e tests pass. Visual check in the browser in dark and light.
 - 2026-09-26 — Phase 3 step 4 (local, not pushed): dark theme and high contrast switches (`AppearanceControls`, `app/theme.ts`, `public/theme-init.js`). The blocking same-origin init script sets `data-theme` and `data-contrast` before first paint from the saved choice, else from `prefers-color-scheme` and `prefers-contrast`; choices are kept in `localStorage` (no cookies) and the switches still work when storage is blocked. The language is still never taken from the browser. 50 unit tests, 19 e2e tests (init from browser preferences, saved choice wins, keyboard use, reload). Axe theme tests now disable motion because the global colour transition made axe sample mid-fade colours.
 - 2026-09-26 — Phase 3 step 3 (local, not pushed): self-hosted `@fontsource/inter` (400, 600) and `@fontsource/outfit` (600), latin subset only (about 62 kB of woff2), wired into `app/app.css`; headings use `font-display`. Knip told to ignore the two font packages (imported from CSS). Icons deferred, see Known gaps.
 - 2026-09-26 — Phase 3 step 2 (local, not pushed): `app/styles/tokens.css` with the four themes (light, dark, light HC, dark HC; `data-theme` and `data-contrast` on `<html>`), Tailwind `@theme` mapping in `app/app.css`, `SkipLink` and `LanguageSwitcher` on tokens. `tokens.test.ts` enforces full token sets, 7:1 text contrast and 3:1 outline in every theme; it caught three dark tokens below 7:1 in the hotel-pms originals (secondary-container, tertiary-container, on-surface-variant), now adjusted. E2E runs axe (WCAG A to AAA) in all four themes on both pages. 44 unit tests and 16 e2e tests pass.
