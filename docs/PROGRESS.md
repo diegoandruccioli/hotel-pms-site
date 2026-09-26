@@ -51,7 +51,7 @@ Measured against the plan on 2026-09-26.
 - `SkipLink` has no component test of its own (no axe check), only coverage through `HomePage`.
 - `public/` has only `robots.txt`; still missing favicon, sitemap, OG image (`_headers` is generated at build time by `scripts/generate-headers.ts`),
   no `.editorconfig`, no `.nvmrc`, no PR or issue templates.
-- Cloudflare adds `Access-Control-Allow-Origin: *` to static files; harmless for a site with no private data, to be listed as an accepted risk in `SECURITY.md`.
+- Cloudflare adds `Access-Control-Allow-Origin: *` to static files; harmless for a site with no private data, listed as an accepted risk in `SECURITY.md`.
 - securityheaders.com grade not checked yet (target A+); Lighthouse on the live URL not run yet.
 
 ## Next steps
