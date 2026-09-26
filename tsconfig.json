@@ -2,6 +2,7 @@
   "include": [
     "app",
     "e2e",
+    "scripts",
     ".react-router/types/**/*",
     "*.config.ts"
   ],
