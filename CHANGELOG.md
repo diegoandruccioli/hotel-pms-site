@@ -6,7 +6,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
-- Project policies: `CLAUDE.md`, `CONTRIBUTING.md`, `SECURITY.md`, `README.md`
+- Project policies: `CONTRIBUTING.md`, `SECURITY.md`, `README.md`
 - Scaffold: React 19 + Vite 8 + React Router 7 framework mode, static prerender of `/` (EN) and
   `/it/` (IT), i18next `site` namespace, EN/IT language switcher that keeps the section anchor,
   skip link, canonical/hreflang/Open Graph metadata

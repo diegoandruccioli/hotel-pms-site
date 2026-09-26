@@ -1,8 +1,7 @@
 # Progress log
 
 Single source of truth for where the project stands. Updated after every completed step
-(commit, merge, decision). Full plan: Claude Doc "Piano — Pagina vetrina hotel-pms"
-(https://claude.ai/artifact/53S6BHSvFVg31jjGrtVwgf).
+(commit, merge, decision). Full plan: kept outside the repo (phases 0–5).
 
 ## Current state
 
@@ -36,19 +35,19 @@ Single source of truth for where the project stands. Updated after every complet
   in `e2e/home.spec.ts`.
 - **CI:** `.github/workflows/ci.yml` (quality job, then browser job with Playwright and
   Lighthouse CI), `.github/dependabot.yml` (weekly, `cooldown: 7`).
-- **Docs:** `CLAUDE.md`, `CONTRIBUTING.md`, `SECURITY.md`, `README.md`, `CHANGELOG.md`.
+- **Docs:** `CONTRIBUTING.md`, `SECURITY.md`, `README.md`, `CHANGELOG.md`.
 
 ## Known gaps
 
 Measured against the plan on 2026-09-26.
 
 - `npm run lint` is `eslint .` without `--max-warnings 0` (`package.json:14`), so warnings
-  do not fail the gate that `CLAUDE.md` calls "zero warnings".
-- `@fontsource/*` and `material-symbols` are not installed; `CLAUDE.md` requires them (phase 3).
-- `CLAUDE.md:66` and `CONTRIBUTING.md:57` cite `src/content/claims.ts`, but the code lives in
+  do not fail the gate that the project rules call "zero warnings".
+- `@fontsource/*` and `material-symbols` are not installed; the project rules require them (phase 3).
+- `CONTRIBUTING.md:57` cites `src/content/claims.ts`, but the code lives in
   `app/`. Decide the path in phase 4 and fix the docs.
 - `app/app.css` uses raw hex, and `LanguageSwitcher.tsx:30` and `SkipLink.tsx:10` use raw
-  Tailwind colors. `CLAUDE.md` forbids raw hex; phase 3 replaces them with `--md-*` tokens.
+  Tailwind colors. The project rules forbid raw hex; phase 3 replaces them with `--md-*` tokens.
 - `SkipLink` has no component test of its own (no axe check), only coverage through `HomePage`.
 - `public/` has only `robots.txt`; still missing favicon, sitemap, `_headers`, OG image,
   no `.editorconfig`, no `.nvmrc`, no PR or issue templates.
@@ -65,6 +64,7 @@ Measured against the plan on 2026-09-26.
 
 Newest first. One line per completed step: date, what, commit.
 
+- 2026-09-26 — Assistant-specific files (`CLAUDE.md`, `.claude/`) untracked and gitignored; they stay on disk only. Earlier commits still contain them.
 - 2026-09-26 — PR #8 merged (`1468e51`), phase 2 closed. Manual browser check of the built site: `/` (EN) and `/it/` render the placeholder page, language switch works.
 - 2026-09-26 — PR #8 CI green after adding `public/robots.txt`; created ruleset `Protect main`.
 - 2026-09-26 — Merged `feature/progress-tracking` (`409bdf8`) and pushed `main` to origin. First CI run: `quality` green, `browser` red on Lighthouse (see phase 2). Lighthouse config switched to the preview server URLs in `fix/lighthouse-urls` (PR #8); the rerun showed accessibility fixed but SEO 0.92 from an invalid `robots.txt`, so `public/robots.txt` was added.
