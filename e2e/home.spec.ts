@@ -43,3 +43,27 @@ for (const page of PAGES) {
     });
   });
 }
+
+// Themes are attributes on <html>; every theme must pass the same AAA axe check.
+const THEMES = [
+  { name: "light", theme: "light", contrast: "normal" },
+  { name: "dark", theme: "dark", contrast: "normal" },
+  { name: "light high contrast", theme: "light", contrast: "high" },
+  { name: "dark high contrast", theme: "dark", contrast: "high" },
+] as const;
+
+for (const page of PAGES) {
+  for (const theme of THEMES) {
+    test(`${page.path} has no axe violations in the ${theme.name} theme`, async ({ page: browserPage }) => {
+      await browserPage.goto(page.path);
+      await browserPage.evaluate(({ theme: t, contrast }) => {
+        document.documentElement.setAttribute("data-theme", t);
+        document.documentElement.setAttribute("data-contrast", contrast);
+      }, theme);
+      const results = await new AxeBuilder({ page: browserPage })
+        .withTags(["wcag2a", "wcag2aa", "wcag2aaa", "wcag21a", "wcag21aa", "wcag22aa"])
+        .analyze();
+      expect(results.violations).toEqual([]);
+    });
+  }
+}

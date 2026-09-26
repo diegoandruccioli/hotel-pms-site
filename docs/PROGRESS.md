@@ -7,7 +7,7 @@ Single source of truth for where the project stands. Updated after every complet
 
 - **Active phase:** phases 0, 1, 2 and 5 done (publishing was built ahead of 3 and 4 so that only the page itself is left); phases 3 (design system) and 4 (content) not started
 - **Last updated:** 2026-09-26
-- **Branch:** `chore/quality-gaps` (phase 3 step 1, stacked on `docs/phase5-done` = PR #11); `main` at `b9299f5` after PR #10
+- **Branch:** `feature/design-system` (phase 3, stacked on `chore/quality-gaps`, itself on `docs/phase5-done` = PR #11); `main` at `b9299f5` after PR #10
 - **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public; `main` pushed 2026-09-26 at `409bdf8`)
 - **Repo settings applied 2026-09-26:** wiki and projects off, rebase merge off, delete branch on merge, update-branch suggestion, topics, description, secret scanning + push protection, Dependabot alerts + security updates, workflow token read-only, no PR approval by Actions, approval for all external fork contributors, SHA pinning required
 - **Ruleset `Protect main` active (2026-09-26):** PR required (0 approvals), conversation resolution, up-to-date branch, required checks `Quality — …` and `Browser — …`, no force push, no deletion, no bypass
@@ -44,8 +44,6 @@ Measured against the plan on 2026-09-26.
 - `@fontsource/*` and `material-symbols` are not installed; the project rules require them (phase 3).
 - `CONTRIBUTING.md:57` cites `src/content/claims.ts`, but the code lives in
   `app/`. Decide the path in phase 4 and fix the docs.
-- `app/app.css` uses raw hex, and `LanguageSwitcher.tsx:30` and `SkipLink.tsx:10` use raw
-  Tailwind colors. The project rules forbid raw hex; phase 3 replaces them with `--md-*` tokens.
 - `public/` has only `robots.txt`; still missing favicon, sitemap, OG image (`_headers` is generated at build time by `scripts/generate-headers.ts`),
   no PR or issue templates.
 - Cloudflare adds `Access-Control-Allow-Origin: *` to static files; harmless for a site with no private data, listed as an accepted risk in `SECURITY.md`.
@@ -63,6 +61,7 @@ Measured against the plan on 2026-09-26.
 
 Newest first. One line per completed step: date, what, commit.
 
+- 2026-09-26 — Phase 3 step 2 (local, not pushed): `app/styles/tokens.css` with the four themes (light, dark, light HC, dark HC; `data-theme` and `data-contrast` on `<html>`), Tailwind `@theme` mapping in `app/app.css`, `SkipLink` and `LanguageSwitcher` on tokens. `tokens.test.ts` enforces full token sets, 7:1 text contrast and 3:1 outline in every theme; it caught three dark tokens below 7:1 in the hotel-pms originals (secondary-container, tertiary-container, on-surface-variant), now adjusted. E2E runs axe (WCAG A to AAA) in all four themes on both pages. 44 unit tests and 16 e2e tests pass.
 - 2026-09-26 — Phase 3 step 1 (local, not pushed): `npm run lint` now `--max-warnings 0`, `SkipLink` test with axe, `.editorconfig`, `.nvmrc` (24). 31 tests pass.
 - 2026-09-26 — Phase 5 done. PR #10 merged (`b9299f5`); CI green on `main`; deploy approved in `production`; `deploy` and `verify` jobs green; https://hotel-pms-site.pages.dev serves `/` and `/it/` with no console errors. A first manual Direct Upload of `build/client` had created the Pages project.
 - 2026-09-26 — PR #9 merged (`28e1999`); PR #10 opened for phase 5. Cloudflare account exists, no Pages project yet.

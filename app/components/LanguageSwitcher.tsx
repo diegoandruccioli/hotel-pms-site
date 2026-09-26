@@ -27,8 +27,8 @@ export function LanguageSwitcher() {
                 aria-label={t(`action_switch_to_${lang}`)}
                 className={
                   isCurrent
-                    ? "rounded-md bg-black px-3 py-2 font-semibold text-white"
-                    : "rounded-md px-3 py-2 underline underline-offset-4"
+                    ? "inline-flex min-h-10 min-w-10 items-center justify-center rounded-shape-sm bg-primary px-3 font-semibold text-on-primary"
+                    : "inline-flex min-h-10 min-w-10 items-center justify-center rounded-shape-sm px-3 text-primary underline underline-offset-4"
                 }
               >
                 {lang.toUpperCase()}
