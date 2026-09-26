@@ -1,8 +1,9 @@
 {
   "ci": {
     "collect": {
-      "staticDistDir": "./build/client",
-      "url": ["/index.html", "/it/index.html"],
+      "startServerCommand": "npm run preview",
+      "startServerReadyPattern": "4173",
+      "url": ["http://localhost:4173/", "http://localhost:4173/it/"],
       "numberOfRuns": 3
     },
     "assert": {

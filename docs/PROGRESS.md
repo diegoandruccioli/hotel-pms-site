@@ -8,8 +8,8 @@ Single source of truth for where the project stands. Updated after every complet
 
 - **Active phase:** between phase 2 and phase 3 (design system not started)
 - **Last updated:** 2026-09-26
-- **Branch:** `feature/progress-tracking` (adds this log and the tracking rule)
-- **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public, still empty: nothing pushed, so no CI run yet)
+- **Branch:** `fix/lighthouse-urls` (Lighthouse config fix, not pushed yet)
+- **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public; `main` pushed 2026-09-26 at `409bdf8`)
 - **Repo settings applied 2026-09-26:** wiki and projects off, rebase merge off, delete branch on merge, update-branch suggestion, topics, description, secret scanning + push protection, Dependabot alerts + security updates, workflow token read-only, no PR approval by Actions, approval for all external fork contributors, SHA pinning required
 - **Pending on GitHub:** ruleset on `main` (needs a first CI run to expose check names), `production` environment (phase 5)
 
@@ -19,7 +19,7 @@ Single source of truth for where the project stands. Updated after every complet
 |---|---|---|---|
 | 0 Foundations | Done, except branch protection (needs first push and CI run) | `fed6260` | Public repo with written policies |
 | 1 Scaffold | Done | `e7966fd`, merge `991a7db` | `npm run build` prerenders `/` (EN) and `/it/` |
-| 2 CI | Done locally; the workflow has never run on GitHub | `26dd637`, merge `4aa2d85` | An empty PR passes every job |
+| 2 CI | First CI run on `main` (2026-09-26): `quality` green, `browser` red (Lighthouse accessibility 0.86 and SEO 0.80 on both pages). Suspected cause: URLs `/index.html` and `/it/index.html` match no client route, so hydration drops `<title>` and meta description. Fix in `fix/lighthouse-urls`, unverified | `26dd637`, merge `4aa2d85` | An empty PR passes every job |
 | 3 Design system | Not started | — | axe green on all four themes |
 | 4 Content | Not started | — | Lighthouse ≥ 95 everywhere, every claim has a source |
 | 5 Publishing | Not started | — | Site live, A+ on securityheaders.com, no CSP violations |
@@ -55,9 +55,9 @@ Measured against the plan on 2026-09-26.
 
 ## Next steps
 
-1. Merge `feature/progress-tracking` into `main` once approved, then first push.
+1. Push `fix/lighthouse-urls`, open a PR, confirm both CI jobs go green (closes phase 2).
 2. Author email decided: history stays as is (it mixes `diego.andruccioli@studio.unibo.it` and `andrucciolidiego@gmail.com`, both become public); every new commit uses `andrucciolidiego@gmail.com` (set in the repo-local git config).
-3. Open a test PR so `ci.yml` runs, then create the ruleset requiring the two check names: `Quality — ESLint · madge · knip · TypeScript · Build · Vitest · audit` and `Browser — Playwright + axe · Lighthouse`.
+3. Once CI is green on the PR, create the ruleset requiring the two check names: `Quality — ESLint · madge · knip · TypeScript · Build · Vitest · audit` and `Browser — Playwright + axe · Lighthouse`.
 4. Decide whether to fix the phase 0–2 gaps above in one small branch before phase 3.
 5. Phase 3: M3 `--md-*` tokens and four themes from hotel-pms `m3-base.css`, self-hosted
    fonts, base components.
@@ -66,6 +66,7 @@ Measured against the plan on 2026-09-26.
 
 Newest first. One line per completed step: date, what, commit.
 
+- 2026-09-26 — Merged `feature/progress-tracking` (`409bdf8`) and pushed `main` to origin. First CI run: `quality` green, `browser` red on Lighthouse (see phase 2). Lighthouse config switched to the preview server URLs in `fix/lighthouse-urls`.
 - 2026-09-26 — License decided: MIT (`LICENSE`, README updated).
 - 2026-09-26 — Decision: keep existing commit emails, use `andrucciolidiego@gmail.com` for all new commits.
 - 2026-09-26 — Connected `origin` to the new GitHub repo and applied repo, security and Actions settings via `gh api` (no push yet).
