@@ -5,13 +5,13 @@ Single source of truth for where the project stands. Updated after every complet
 
 ## Current state
 
-- **Active phase:** phase 5 (publishing) built ahead of 3 and 4 so that only the page itself is left to develop; phases 3 and 4 not started
+- **Active phase:** phases 0, 1, 2 and 5 done (publishing was built ahead of 3 and 4 so that only the page itself is left); phases 3 (design system) and 4 (content) not started
 - **Last updated:** 2026-09-26
-- **Branch:** `feature/publishing` (PR #10); `main` at `28e1999` after PR #9
+- **Branch:** `docs/phase5-done` (this log update); `main` at `b9299f5` after PR #10
 - **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public; `main` pushed 2026-09-26 at `409bdf8`)
 - **Repo settings applied 2026-09-26:** wiki and projects off, rebase merge off, delete branch on merge, update-branch suggestion, topics, description, secret scanning + push protection, Dependabot alerts + security updates, workflow token read-only, no PR approval by Actions, approval for all external fork contributors, SHA pinning required
 - **Ruleset `Protect main` active (2026-09-26):** PR required (0 approvals), conversation resolution, up-to-date branch, required checks `Quality — …` and `Browser — …`, no force push, no deletion, no bypass
-- **Pending for the first deploy:** Cloudflare Pages project `hotel-pms-site` (Direct Upload), API token (Cloudflare Pages: Edit), GitHub environment `production` with secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`, then merge PR #10
+- **Live:** https://hotel-pms-site.pages.dev (Cloudflare Pages, Direct Upload project `hotel-pms-site`). Deploys only through `deploy.yml`: green CI on `main`, then approval in the GitHub environment `production` (main only, admin bypass off, secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` stored there), then header verification
 
 ## Phases
 
@@ -22,7 +22,7 @@ Single source of truth for where the project stands. Updated after every complet
 | 2 CI | Done: PR #8 merged (`1468e51`). History: first CI run on `main` (2026-09-26): `quality` green, `browser` red (Lighthouse accessibility 0.86 and SEO 0.80 on both pages). Cause 1 (confirmed): URLs `/index.html` and `/it/index.html` match no client route, so hydration dropped `<title>` and meta description; fixed by auditing the preview server URLs. Cause 2 (confirmed from the CI artifact): `robots-txt` audit failed because `/robots.txt` fell back to HTML; fixed with `public/robots.txt`. Both in PR #8: CI green on both jobs (2026-09-26); phase 2 closed by the merge | `26dd637`, merge `4aa2d85` | An empty PR passes every job |
 | 3 Design system | Not started | — | axe green on all four themes |
 | 4 Content | Not started | — | Lighthouse ≥ 95 everywhere, every claim has a source |
-| 5 Publishing | Code written locally and gates green; not merged, nothing deployed yet | `feature/publishing` | Site live, A+ on securityheaders.com, no CSP violations |
+| 5 Publishing | Done: first deploy through Actions succeeded, `verify` job green (2026-09-26) | PR #10, merge `b9299f5` | Site live, A+ on securityheaders.com, no CSP violations |
 
 ## What exists
 
@@ -51,19 +51,22 @@ Measured against the plan on 2026-09-26.
 - `SkipLink` has no component test of its own (no axe check), only coverage through `HomePage`.
 - `public/` has only `robots.txt`; still missing favicon, sitemap, OG image (`_headers` is generated at build time by `scripts/generate-headers.ts`),
   no `.editorconfig`, no `.nvmrc`, no PR or issue templates.
-- Deploy not live yet: needs the Cloudflare project, token and `production` environment (see Current state).
+- Cloudflare adds `Access-Control-Allow-Origin: *` to static files; harmless for a site with no private data, to be listed as an accepted risk in `SECURITY.md`.
+- securityheaders.com grade not checked yet (target A+); Lighthouse on the live URL not run yet.
 
 ## Next steps
 
-1. Author email decided: history stays as is (it mixes `diego.andruccioli@studio.unibo.it` and `andrucciolidiego@gmail.com`, both become public); every new commit uses `andrucciolidiego@gmail.com` (set in the repo-local git config).
-2. Before phase 3, small branch for the easy gaps (`--max-warnings 0`, `SkipLink` test, `.editorconfig`, `.nvmrc`).
-3. Phase 3: M3 `--md-*` tokens and four themes from hotel-pms `m3-base.css`, self-hosted
+1. Phase 3 (design system) and phase 4 (content): only the page itself is left to build; every merge to `main` deploys after approval.
+2. Author email decided: history stays as is (it mixes `diego.andruccioli@studio.unibo.it` and `andrucciolidiego@gmail.com`, both become public); every new commit uses `andrucciolidiego@gmail.com` (set in the repo-local git config).
+3. Before phase 3, small branch for the easy gaps (`--max-warnings 0`, `SkipLink` test, `.editorconfig`, `.nvmrc`).
+4. Phase 3: M3 `--md-*` tokens and four themes from hotel-pms `m3-base.css`, self-hosted
    fonts, base components.
 
 ## Session log
 
 Newest first. One line per completed step: date, what, commit.
 
+- 2026-09-26 — Phase 5 done. PR #10 merged (`b9299f5`); CI green on `main`; deploy approved in `production`; `deploy` and `verify` jobs green; https://hotel-pms-site.pages.dev serves `/` and `/it/` with no console errors. A first manual Direct Upload of `build/client` had created the Pages project.
 - 2026-09-26 — PR #9 merged (`28e1999`); PR #10 opened for phase 5. Cloudflare account exists, no Pages project yet.
 - 2026-09-26 — Phase 5 code on `feature/publishing`: `scripts/headers.ts` (CSP with SHA-256 hashes for the 8 inline hydration scripts, security headers, asset caching), `generate-headers.ts` (runs in `npm run build`), `verify-headers.ts`, `deploy.yml` (build, deploy, verify; wrangler-action pinned to `953926a`), `THREAT_MODEL.md`, SECURITY and CHANGELOG updated. Lint, knip, 28 tests and build pass. Built site served with the generated headers showed no CSP errors in the browser console.
 - 2026-09-26 — Assistant-specific files (`CLAUDE.md`, `.claude/`) untracked and gitignored; they stay on disk only. Earlier commits still contain them.
