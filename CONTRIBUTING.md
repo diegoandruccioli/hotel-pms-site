@@ -1,7 +1,7 @@
 # Contributing — Hotel PMS showcase site
 
 Same conventions as [hotel-pms](https://github.com/diegoandruccioli/hotel-pms), reduced to what
-applies to a static site. Project rules for AI assistants live in [`CLAUDE.md`](CLAUDE.md).
+applies to a static site.
 
 ## 1. Prerequisites
 

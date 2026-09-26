@@ -29,3 +29,7 @@ playwright-report
 .DS_Store
 *.suo
 *.sw?
+
+# Assistant-specific local files
+CLAUDE.md
+.claude/
