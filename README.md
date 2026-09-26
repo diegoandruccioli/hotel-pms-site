@@ -44,4 +44,4 @@ without a source, known gaps stated openly, least-privilege CI. Details in
 
 ## License
 
-Not yet specified.
+[MIT](LICENSE)
