@@ -7,11 +7,11 @@ Single source of truth for where the project stands. Updated after every complet
 
 - **Active phase:** phase 5 (publishing) built ahead of 3 and 4 so that only the page itself is left to develop; phases 3 and 4 not started
 - **Last updated:** 2026-09-26
-- **Branch:** `feature/publishing` (stacked on `chore/untrack-claude-files`, PR #9); `main` at `1468e51`
+- **Branch:** `feature/publishing` (PR #10); `main` at `28e1999` after PR #9
 - **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public; `main` pushed 2026-09-26 at `409bdf8`)
 - **Repo settings applied 2026-09-26:** wiki and projects off, rebase merge off, delete branch on merge, update-branch suggestion, topics, description, secret scanning + push protection, Dependabot alerts + security updates, workflow token read-only, no PR approval by Actions, approval for all external fork contributors, SHA pinning required
 - **Ruleset `Protect main` active (2026-09-26):** PR required (0 approvals), conversation resolution, up-to-date branch, required checks `Quality — …` and `Browser — …`, no force push, no deletion, no bypass
-- **Pending for the first deploy:** Cloudflare Pages project `hotel-pms-site` (Direct Upload), API token (Cloudflare Pages: Edit), GitHub environment `production` with secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`, then merge the publishing PR
+- **Pending for the first deploy:** Cloudflare Pages project `hotel-pms-site` (Direct Upload), API token (Cloudflare Pages: Edit), GitHub environment `production` with secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`, then merge PR #10
 
 ## Phases
 
@@ -64,6 +64,7 @@ Measured against the plan on 2026-09-26.
 
 Newest first. One line per completed step: date, what, commit.
 
+- 2026-09-26 — PR #9 merged (`28e1999`); PR #10 opened for phase 5. Cloudflare account exists, no Pages project yet.
 - 2026-09-26 — Phase 5 code on `feature/publishing`: `scripts/headers.ts` (CSP with SHA-256 hashes for the 8 inline hydration scripts, security headers, asset caching), `generate-headers.ts` (runs in `npm run build`), `verify-headers.ts`, `deploy.yml` (build, deploy, verify; wrangler-action pinned to `953926a`), `THREAT_MODEL.md`, SECURITY and CHANGELOG updated. Lint, knip, 28 tests and build pass. Built site served with the generated headers showed no CSP errors in the browser console.
 - 2026-09-26 — Assistant-specific files (`CLAUDE.md`, `.claude/`) untracked and gitignored; they stay on disk only. Earlier commits still contain them.
 - 2026-09-26 — PR #8 merged (`1468e51`), phase 2 closed. Manual browser check of the built site: `/` (EN) and `/it/` render the placeholder page, language switch works.
