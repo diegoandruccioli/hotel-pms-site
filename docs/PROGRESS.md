@@ -5,9 +5,9 @@ Single source of truth for where the project stands. Updated after every complet
 
 ## Current state
 
-- **Active phase:** phase 4 (content) nearly done: every text section and the SEO assets are merged; the "View the code" link to hotel-pms was removed by user decision; only screenshots from hotel-pms seed data remain, paused pending user confirmation (needs Docker Compose on the hotel-pms repo)
+- **Active phase:** phase 4 nearly done: hero CTA approved and built for real (PR pending); only screenshots from hotel-pms seed data remain, now unblocked — the user's Docker stack is already up and healthy
 - **Last updated:** 2026-09-27
-- **Branch:** `chore/remove-code-link`; `main` at `24c09bb` after PR #20
+- **Branch:** `feature/hero-cta`; `main` at `460e1bd` after PR #21
 - **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public; `main` pushed 2026-09-26 at `409bdf8`)
 - **Repo settings applied 2026-09-26:** wiki and projects off, rebase merge off, delete branch on merge, update-branch suggestion, topics, description, secret scanning + push protection, Dependabot alerts + security updates, workflow token read-only, no PR approval by Actions, approval for all external fork contributors, SHA pinning required
 - **Ruleset `Protect main` active (2026-09-26):** PR required (0 approvals), conversation resolution, up-to-date branch, required checks `Quality — …` and `Browser — …`, no force push, no deletion, no bypass
@@ -44,20 +44,20 @@ Measured against the plan on 2026-09-26.
 - `material-symbols` is not installed yet: its full icon font is several MB, so it is added together with the first icon (phase 4), subset or replaced by inline SVG to stay within the page weight budget.
 - No PR or issue templates.
 - Screenshots still needed: require running hotel-pms's Docker Compose stack with seed data.
-- Home page has no CTA left in the hero (the "View the code" button was removed); consider whether a replacement is wanted.
 - Cloudflare adds `Access-Control-Allow-Origin: *` to static files; harmless for a site with no private data, listed as an accepted risk in `SECURITY.md`.
 - securityheaders.com grade not checked yet (target A+); Lighthouse on the live URL not run yet.
 
 ## Next steps
 
-1. Push and review `chore/remove-code-link`.
-2. Screenshots from hotel-pms seed data: needs Docker Compose running the full stack (gateway, 8 services, Postgres, Redis, observability) on a different repo, `docs/seed-data.sql` loaded, default admin login, then Playwright screenshots. Paused, waiting for the user to confirm before starting Docker, or to supply screenshots directly.
-3. Decide if the hero needs a replacement CTA now that "View the code" is gone.
+1. Push and review `feature/hero-cta`.
+2. Take screenshots from the running hotel-pms stack (http://localhost/, admin login already set up by the user) with seed data, in WebP, alt text translated EN/IT.
 
 ## Session log
 
 Newest first. One line per completed step: date, what, commit.
 
+- 2026-09-27 — User approved the hero CTA. Built for real on `feature/hero-cta`: `hero_cta` i18n key (EN "Get in touch", IT "Contattami"), links to `mailto:` + `CONTACT_EMAIL` from `AboutSection`, `HomePage.test.tsx` asserts the link in both languages. 108 unit tests, 19 e2e tests pass. Confirmed the user's hotel-pms Docker stack is already up and healthy (gateway + 8 services + Postgres + Redis + observability), so screenshots no longer need a cold start.
+- 2026-09-27 — PR #21 merged (`460e1bd`).
 - 2026-09-27 — Removed the "View the code" link to https://github.com/diegoandruccioli/hotel-pms from the home page (user decision: the site must not lead to the project's code). Dropped the `action_view_code` i18n key and the now-unused `M3ButtonLink` import from `HomePage.tsx`; noted in `claims.ts`'s doc comment that the source repo is never linked from the site. 108 unit tests, 19 e2e tests pass.
 - 2026-09-27 — PR #20 merged (`24c09bb`).
 - 2026-09-27 — SEO assets: `public/favicon.svg` (self-authored, no third-party icon), `public/apple-touch-icon.png` and `public/og-image.png` rendered by `scripts/generate-social-images.mjs` (Playwright, run once, output committed like any static asset), `public/sitemap.xml` with hreflang alternates, `Sitemap:` line added to `robots.txt`. `og:image`/`twitter:*` tags in `meta.ts`, `<link rel="icon">`/`apple-touch-icon` via a `links()` export in `root.tsx`. 108 unit tests (2 new meta assertions), 19 e2e tests pass.
