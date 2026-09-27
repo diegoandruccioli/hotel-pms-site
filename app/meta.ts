@@ -43,5 +43,10 @@ export function buildMeta(lang: Lang): MetaDescriptor[] {
       property: "og:locale:alternate",
       content: OG_LOCALE[candidate],
     })),
+    { property: "og:image", content: `${SITE_ORIGIN}/og-image.png` },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: t("meta_title") },
+    { name: "twitter:description", content: t("meta_description") },
+    { name: "twitter:image", content: `${SITE_ORIGIN}/og-image.png` },
   ];
 }

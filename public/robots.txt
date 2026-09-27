@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://hotel-pms-site.pages.dev/sitemap.xml

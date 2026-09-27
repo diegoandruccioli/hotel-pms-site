@@ -9,6 +9,8 @@ describe("buildMeta", () => {
     expect(meta).toContainEqual({ tagName: "link", rel: "canonical", href: `${SITE_ORIGIN}/` });
     expect(meta).toContainEqual({ property: "og:locale", content: "en_US" });
     expect(meta).toContainEqual({ property: "og:locale:alternate", content: "it_IT" });
+    expect(meta).toContainEqual({ property: "og:image", content: `${SITE_ORIGIN}/og-image.png` });
+    expect(meta).toContainEqual({ name: "twitter:card", content: "summary_large_image" });
   });
 
   it("builds Italian metadata for /it/", () => {
