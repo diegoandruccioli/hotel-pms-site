@@ -7,9 +7,11 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 import { M3ButtonLink } from "./m3/M3ButtonLink";
 import { M3Card } from "./m3/M3Card";
 import { M3StatusChip } from "./m3/M3StatusChip";
+import { HotelsSection } from "./HotelsSection";
 import { MAIN_CONTENT_ID } from "./SkipLink";
 import { QualitySection } from "./QualitySection";
 import { SecuritySection } from "./SecuritySection";
+import { StatusSection } from "./StatusSection";
 
 export function HomePage() {
   const { t } = useTranslation("site");
@@ -37,6 +39,8 @@ export function HomePage() {
         <DecisionsSection />
         <SecuritySection />
         <QualitySection />
+        <HotelsSection />
+        <StatusSection />
       </main>
     </>
   );

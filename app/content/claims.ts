@@ -55,4 +55,52 @@ export const claims: Claim[] = [
     source: "README.md — Coverage (measured 2026-08-04)",
     measuredAt: "2026-08-04",
   },
+  {
+    key: "hotels_compliance_alloggiati",
+    source: "docs/COMPLIANCE_AUDIT_2026-08.md §1 (Alloggiati Web)",
+  },
+  {
+    key: "hotels_compliance_invoicing",
+    source: "docs/COMPLIANCE_AUDIT_2026-08.md §2 (Fatturazione elettronica / SDI / FatturaPA)",
+  },
+  {
+    key: "hotels_compliance_citytax",
+    source: "docs/COMPLIANCE_AUDIT_2026-08.md §4 (Imposta di soggiorno, resolved 2026-08-19)",
+  },
+  {
+    key: "hotels_compliance_receipts",
+    source: "docs/COMPLIANCE_AUDIT_2026-08.md §5 (Corrispettivi telematici)",
+  },
+  {
+    key: "hotels_compliance_gdpr",
+    source: "docs/COMPLIANCE_AUDIT_2026-08.md §3 (GDPR, Art. 17 and Art. 20 rows)",
+  },
+  {
+    key: "status_ready_backup",
+    source: "README.md — Complete and production-ready (encrypted off-site backup)",
+  },
+  {
+    key: "status_ready_accessibility",
+    source: "docs/COMPLIANCE_AUDIT_2026-08.md §8 (Accessibilità WCAG 2.2 AA)",
+  },
+  {
+    key: "status_ready_erasure",
+    source: "docs/COMPLIANCE_AUDIT_2026-08.md §3 (GDPR, Art. 17 row)",
+  },
+  {
+    key: "status_gap_receipts",
+    source: "docs/COMPLIANCE_AUDIT_2026-08.md §5 (Corrispettivi telematici)",
+  },
+  {
+    key: "status_gap_credit_note",
+    source: "README.md — Roadmap, Main commercial gaps",
+  },
+  {
+    key: "status_gap_channel_manager",
+    source: "README.md — Roadmap, Main commercial gaps",
+  },
+  {
+    key: "status_gap_booking",
+    source: "README.md — Roadmap, Main commercial gaps",
+  },
 ];
