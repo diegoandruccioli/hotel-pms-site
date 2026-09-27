@@ -103,4 +103,9 @@ export const claims: Claim[] = [
     key: "status_gap_booking",
     source: "README.md — Roadmap, Main commercial gaps",
   },
+  {
+    key: "screenshots_intro",
+    source: "Screenshots of the running application (its own Docker Compose stack), using its own end-to-end seed data (docs/seed-data.sql / E2E-LIVE fixtures) — never real guest or hotel data.",
+    measuredAt: "2026-09-27",
+  },
 ];

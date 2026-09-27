@@ -5,9 +5,9 @@ Single source of truth for where the project stands. Updated after every complet
 
 ## Current state
 
-- **Active phase:** phase 4 nearly done: hero CTA approved and built for real (PR pending); only screenshots from hotel-pms seed data remain, now unblocked — the user's Docker stack is already up and healthy
+- **Active phase:** phase 4 content complete: screenshots added (last open item). Waiting on PR #22 (hero CTA) and the new screenshots PR
 - **Last updated:** 2026-09-27
-- **Branch:** `feature/hero-cta`; `main` at `460e1bd` after PR #21
+- **Branch:** `feature/screenshots`; `main` at `460e1bd` after PR #21 (PR #22, hero CTA, still open)
 - **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public; `main` pushed 2026-09-26 at `409bdf8`)
 - **Repo settings applied 2026-09-26:** wiki and projects off, rebase merge off, delete branch on merge, update-branch suggestion, topics, description, secret scanning + push protection, Dependabot alerts + security updates, workflow token read-only, no PR approval by Actions, approval for all external fork contributors, SHA pinning required
 - **Ruleset `Protect main` active (2026-09-26):** PR required (0 approvals), conversation resolution, up-to-date branch, required checks `Quality — …` and `Browser — …`, no force push, no deletion, no bypass
@@ -43,19 +43,19 @@ Measured against the plan on 2026-09-26.
 
 - `material-symbols` is not installed yet: its full icon font is several MB, so it is added together with the first icon (phase 4), subset or replaced by inline SVG to stay within the page weight budget.
 - No PR or issue templates.
-- Screenshots still needed: require running hotel-pms's Docker Compose stack with seed data.
 - Cloudflare adds `Access-Control-Allow-Origin: *` to static files; harmless for a site with no private data, listed as an accepted risk in `SECURITY.md`.
 - securityheaders.com grade not checked yet (target A+); Lighthouse on the live URL not run yet.
 
 ## Next steps
 
-1. Push and review `feature/hero-cta`.
-2. Take screenshots from the running hotel-pms stack (http://localhost/, admin login already set up by the user) with seed data, in WebP, alt text translated EN/IT.
+1. Review/merge PR #22 (hero CTA) and the screenshots PR.
+2. Phase 4 is then content-complete; only small gaps remain (favicon already done; PR/issue templates, securityheaders.com grade, live Lighthouse run).
 
 ## Session log
 
 Newest first. One line per completed step: date, what, commit.
 
+- 2026-09-27 — Screenshots: logged into the user's own already-running hotel-pms Docker stack (http://localhost/, admin/[password set by the user]) and captured 4 views (dashboard, reservations, calendar, billing) — all data is the app's own E2E seed fixtures ("Live Suite Guest", `E2E-LIVE-*`), never real guest data. Converted JPG → WebP with a one-off Playwright/canvas script (`scripts/convert-screenshots.mjs`, ~24-41 KB each). New `ScreenshotsSection` component, lazy-loaded images with explicit width/height and translated alt text; placed right after About. `claims.ts` entry states the source (own seed data) and date. 112 unit tests, 19 e2e tests pass; visual check in the browser (IT, dark theme).
 - 2026-09-27 — User approved the hero CTA. Built for real on `feature/hero-cta`: `hero_cta` i18n key (EN "Get in touch", IT "Contattami"), links to `mailto:` + `CONTACT_EMAIL` from `AboutSection`, `HomePage.test.tsx` asserts the link in both languages. 108 unit tests, 19 e2e tests pass. Confirmed the user's hotel-pms Docker stack is already up and healthy (gateway + 8 services + Postgres + Redis + observability), so screenshots no longer need a cold start.
 - 2026-09-27 — PR #21 merged (`460e1bd`).
 - 2026-09-27 — Removed the "View the code" link to https://github.com/diegoandruccioli/hotel-pms from the home page (user decision: the site must not lead to the project's code). Dropped the `action_view_code` i18n key and the now-unused `M3ButtonLink` import from `HomePage.tsx`; noted in `claims.ts`'s doc comment that the source repo is never linked from the site. 108 unit tests, 19 e2e tests pass.

@@ -49,5 +49,11 @@
   "status_gap_receipts": "Corrispettivi telematici per le vendite del ristorante, obbligatori per legge dal 1° gennaio 2026.",
   "status_gap_credit_note": "Un flusso di nota di credito per correggere una fattura già esportata.",
   "status_gap_channel_manager": "Un channel manager collegato alle OTA — prerequisito per gran parte del mercato alberghiero.",
-  "status_gap_booking": "Un'app mobile e un motore di prenotazione online con pagamento con carta."
+  "status_gap_booking": "Un'app mobile e un motore di prenotazione online con pagamento con carta.",
+  "screenshots_heading": "Schermate",
+  "screenshots_intro": "Ogni schermata qui sotto è l'applicazione reale, in esecuzione sui propri dati di test end-to-end — nessuna foto di un ospite reale o di un hotel reale.",
+  "screenshots_dashboard_alt": "Bacheca con arrivi, partenze e stato delle camere di oggi.",
+  "screenshots_reservations_alt": "Elenco prenotazioni con check-in, check-out e stato di ogni soggiorno.",
+  "screenshots_calendar_alt": "Tabellone di pianificazione camere di settembre, camere sul lato e date in alto.",
+  "screenshots_billing_alt": "Elenco fatture, con l'avviso di modalità pilota per i corrispettivi telematici visibile in alto — la stessa lacuna dichiarata sopra in Stato e roadmap."
 }
