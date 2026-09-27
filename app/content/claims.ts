@@ -2,7 +2,7 @@
  * Every factual claim this site makes about hotel-pms, with the file or section in that
  * repository backing it. `claims.test.ts` fails the build if a claim has no source, or if its
  * `key` has no matching EN/IT text in `app/locales/{en,it}/site.json` — the source lives here,
- * the displayed text stays in i18n.
+ * the displayed text stays in i18n. The source repository itself is never linked from the site.
  *
  * `measuredAt` is set only for a claim built on a number that changes over time (coverage,
  * counts). The date is hotel-pms's own measurement date, not this site's.

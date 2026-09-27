@@ -5,8 +5,8 @@ import { M3ButtonLink } from "./M3ButtonLink";
 
 describe("M3ButtonLink", () => {
   it("is a link, so navigation keeps link semantics", () => {
-    render(<M3ButtonLink href="https://example.com">View the code</M3ButtonLink>);
-    expect(screen.getByRole("link", { name: "View the code" })).toHaveAttribute("href", "https://example.com");
+    render(<M3ButtonLink href="https://example.com">Learn more</M3ButtonLink>);
+    expect(screen.getByRole("link", { name: "Learn more" })).toHaveAttribute("href", "https://example.com");
   });
 
   it("shares the button look and forwards attributes", () => {
