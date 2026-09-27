@@ -12,5 +12,8 @@
   "hero_tagline": "Un gestionale per gli hotel italiani, costruito a microservizi e documentato con onestà.",
   "action_view_code": "Vedi il codice",
   "status_in_progress": "In corso",
-  "status_under_construction": "Questa vetrina è in costruzione."
+  "status_under_construction": "Questa vetrina è in costruzione.",
+  "about_heading": "Il progetto",
+  "about_body": "Hotel PMS è un gestionale a microservizi per hotel italiani, progettato e sviluppato da solo, e mantenuto attivamente. Questo sito lo documenta come vorrei fosse documentato un codebase: decisioni di architettura reali, un threat model scritto, quality gate applicati, e le lacune dichiarate apertamente invece che nascoste. Se sei un recruiter, il punto sono il codice e il ragionamento dietro: parti dall'architettura e dalle decisioni qui sotto.",
+  "about_contact": "Domande sul progetto o richiesta demo per il tuo hotel: <email>{{email}}</email>"
 }

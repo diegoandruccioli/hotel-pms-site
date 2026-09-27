@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { AboutSection } from "./AboutSection";
 import { AppearanceControls } from "./AppearanceControls";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { M3ButtonLink } from "./m3/M3ButtonLink";
@@ -27,6 +28,7 @@ export function HomePage() {
           <M3StatusChip tone="partial">{t("status_in_progress")}</M3StatusChip>
           <p className="mt-3">{t("status_under_construction")}</p>
         </M3Card>
+        <AboutSection />
       </main>
     </>
   );
