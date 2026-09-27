@@ -5,9 +5,9 @@ Single source of truth for where the project stands. Updated after every complet
 
 ## Current state
 
-- **Active phase:** phases 0, 1, 2 and 5 done (publishing was built ahead of 3 and 4 so that only the page itself is left); phase 3 (design system) merged and live; phase 4 (content) is next
+- **Active phase:** phase 4 (content) started: About section done locally on `feature/about-section`, awaiting push and review
 - **Last updated:** 2026-09-26
-- **Branch:** `docs/phase3-done` (this log update); `main` at `417a70c` after PR #12
+- **Branch:** `feature/about-section` (phase 4, first step); `main` at `707c9bf` after PR #13
 - **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public; `main` pushed 2026-09-26 at `409bdf8`)
 - **Repo settings applied 2026-09-26:** wiki and projects off, rebase merge off, delete branch on merge, update-branch suggestion, topics, description, secret scanning + push protection, Dependabot alerts + security updates, workflow token read-only, no PR approval by Actions, approval for all external fork contributors, SHA pinning required
 - **Ruleset `Protect main` active (2026-09-26):** PR required (0 approvals), conversation resolution, up-to-date branch, required checks `Quality — …` and `Browser — …`, no force push, no deletion, no bypass
@@ -21,7 +21,7 @@ Single source of truth for where the project stands. Updated after every complet
 | 1 Scaffold | Done | `e7966fd`, merge `991a7db` | `npm run build` prerenders `/` (EN) and `/it/` |
 | 2 CI | Done: PR #8 merged (`1468e51`). History: first CI run on `main` (2026-09-26): `quality` green, `browser` red (Lighthouse accessibility 0.86 and SEO 0.80 on both pages). Cause 1 (confirmed): URLs `/index.html` and `/it/index.html` match no client route, so hydration dropped `<title>` and meta description; fixed by auditing the preview server URLs. Cause 2 (confirmed from the CI artifact): `robots-txt` audit failed because `/robots.txt` fell back to HTML; fixed with `public/robots.txt`. Both in PR #8: CI green on both jobs (2026-09-26); phase 2 closed by the merge | `26dd637`, merge `4aa2d85` | An empty PR passes every job |
 | 3 Design system | Done: PR #12 merged (`417a70c`), deployed; axe AAA green on both pages in all four themes | `feature/design-system` | axe green on all four themes |
-| 4 Content | Not started | — | Lighthouse ≥ 95 everywhere, every claim has a source |
+| 4 Content | Started: About section built locally, not pushed | `feature/about-section` | Lighthouse ≥ 95 everywhere, every claim has a source |
 | 5 Publishing | Done: first deploy through Actions succeeded, `verify` job green (2026-09-26) | PR #10, merge `b9299f5` | Site live, A+ on securityheaders.com, no CSP violations |
 
 ## What exists
@@ -53,13 +53,14 @@ Measured against the plan on 2026-09-26.
 
 1. Phase 3 (design system) and phase 4 (content): only the page itself is left to build; every merge to `main` deploys after approval.
 2. Author email decided: history stays as is (it mixes `diego.andruccioli@studio.unibo.it` and `andrucciolidiego@gmail.com`, both become public); every new commit uses `andrucciolidiego@gmail.com` (set in the repo-local git config).
-3. Small clean-up of the remaining gaps (favicon, sitemap, OG image, PR and issue templates) can ride along with phase 4.
-4. Phase 4: content sections, `claims.ts` with sources, screenshots from seed data, SEO files.
+3. Push and review the About section (`feature/about-section`), then continue phase 4 with the recruiter sections (architecture, decisions, security, quality) and `claims.ts`.
+4. Then the hotels section, status/roadmap, screenshots from seed data, SEO files. Small clean-up of remaining gaps (favicon, sitemap, OG image, PR/issue templates) can ride along.
 
 ## Session log
 
 Newest first. One line per completed step: date, what, commit.
 
+- 2026-09-27 — PR #13 merged (`707c9bf`). Phase 4 started: `AboutSection` component, product-first copy (no personal bio — a separate personal site is planned later), `about_heading`/`about_body`/`about_contact` i18n keys in EN/IT, mailto contact to `diegoandruccioli@gmail.com` (no form). 66 unit tests, 19 e2e tests pass; visual check in the browser (IT, light theme).
 - 2026-09-26 — PR #12 merged (`417a70c`), deploy approved; `verify` job green. Live check in the browser: `/it/` follows the dark preference of the system, the theme switch works after hydration (so the CSP lets the app scripts run), no CSP or other errors in the console.
 - 2026-09-26 — PR #11 merged (`465df8b`); phase 3 pushed as PR #12 after merging `main` into the branch; CI green on both jobs.
 - 2026-09-26 — Phase 3 step 5 (local, not pushed): base components in `app/components/m3/` (`M3Button`, `M3ButtonLink`, `M3Card`, `M3StatusChip`) with variant lookup tables, `cn()` (`clsx` and `tailwind-merge`), a test with axe each. Colour pairs are limited to the ones `tokens.test.ts` proves at 7:1. The home page now uses them (View the code link, in-progress chip inside a card), so e2e axe covers them in all four themes. 63 unit and 19 e2e tests pass. Visual check in the browser in dark and light.

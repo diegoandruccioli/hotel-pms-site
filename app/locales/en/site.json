@@ -12,5 +12,8 @@
   "hero_tagline": "A property management system for Italian hotels, built as microservices and documented honestly.",
   "action_view_code": "View the code",
   "status_in_progress": "In progress",
-  "status_under_construction": "This showcase is under construction."
+  "status_under_construction": "This showcase is under construction.",
+  "about_heading": "About this project",
+  "about_body": "Hotel PMS is a microservices property management system for Italian hotels, designed and built solo, and actively maintained. This site documents it the way I'd want a codebase documented: real architecture decisions, a written threat model, enforced quality gates, and gaps stated openly instead of glossed over. If you're a recruiter, the code and the reasoning behind it are the point — start with the architecture and decisions below.",
+  "about_contact": "Questions about the project or a demo request for your hotel: <email>{{email}}</email>"
 }
