@@ -6,6 +6,13 @@ import { SkipLink } from "./components/SkipLink";
 import { getI18n } from "./i18n";
 import { useRouteLang } from "./useRouteLang";
 
+export function links() {
+  return [
+    { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+    { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+  ];
+}
+
 export function Layout({ children }: { children: ReactNode }) {
   const lang = useRouteLang();
   return (

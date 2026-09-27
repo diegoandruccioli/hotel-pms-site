@@ -16,6 +16,8 @@ for (const page of PAGES) {
       // HTML attribute names are case-insensitive; React Router emits `hrefLang`.
       expect(html).toMatch(/hreflang="en"/i);
       expect(html).toMatch(/hreflang="it"/i);
+      expect(html).toContain('rel="icon"');
+      expect(html).toContain('property="og:image"');
     });
 
     test("has no axe violations", async ({ page: browserPage }) => {
