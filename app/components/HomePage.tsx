@@ -1,11 +1,15 @@
 import { useTranslation } from "react-i18next";
 import { AboutSection } from "./AboutSection";
+import { ArchitectureSection } from "./ArchitectureSection";
 import { AppearanceControls } from "./AppearanceControls";
+import { DecisionsSection } from "./DecisionsSection";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { M3ButtonLink } from "./m3/M3ButtonLink";
 import { M3Card } from "./m3/M3Card";
 import { M3StatusChip } from "./m3/M3StatusChip";
 import { MAIN_CONTENT_ID } from "./SkipLink";
+import { QualitySection } from "./QualitySection";
+import { SecuritySection } from "./SecuritySection";
 
 export function HomePage() {
   const { t } = useTranslation("site");
@@ -29,6 +33,10 @@ export function HomePage() {
           <p className="mt-3">{t("status_under_construction")}</p>
         </M3Card>
         <AboutSection />
+        <ArchitectureSection />
+        <DecisionsSection />
+        <SecuritySection />
+        <QualitySection />
       </main>
     </>
   );

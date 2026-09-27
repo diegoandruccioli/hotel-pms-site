@@ -15,5 +15,19 @@
   "status_under_construction": "This showcase is under construction.",
   "about_heading": "About this project",
   "about_body": "Hotel PMS is a microservices property management system for Italian hotels, designed and built solo, and actively maintained. This site documents it the way I'd want a codebase documented: real architecture decisions, a written threat model, enforced quality gates, and gaps stated openly instead of glossed over. If you're a recruiter, the code and the reasoning behind it are the point — start with the architecture and decisions below.",
-  "about_contact": "Questions about the project or a demo request for your hotel: <email>{{email}}</email>"
+  "about_contact": "Questions about the project or a demo request for your hotel: <email>{{email}}</email>",
+  "architecture_heading": "Architecture",
+  "architecture_body": "Hotel PMS is built as 8 microservices behind a single API Gateway, plus one shared PDF-rendering library. The gateway is the only entry point: it validates JWTs, applies CORS and enforces Redis-backed rate limiting before a request reaches a service. Services never trust each other directly — every internal call carries an HMAC-SHA256 signature. Each stateful service owns its own PostgreSQL database, so there is no shared schema and no cross-service SQL join. Zipkin, Prometheus and Loki give distributed tracing, metrics and structured logs across the whole system.",
+  "decisions_heading": "Decisions and trade-offs",
+  "decisions_intro": "A few of the non-obvious choices made along the way, each with the alternative that was rejected and why.",
+  "decision_auth_token": "JWT in httpOnly cookies, not localStorage: the browser's JavaScript never sees the token, closing the classic XSS token-theft path.",
+  "decision_internal_auth": "HMAC-SHA256 on every call between services, instead of mutual TLS: a compromised internal network still can't forge a request without the shared secret, without the cost of a certificate infrastructure.",
+  "decision_multitenancy": "A hotel_id column on every entity, taken only from the verified JWT and never from client input, checked at build time by a dedicated test — a missing tenant filter fails CI, not production. Chosen over one database schema per hotel, which would cost far more to operate.",
+  "decision_resilience": "A circuit breaker on every internal call: if one service is down, the rest keep working with partial data instead of the whole system going down with it.",
+  "decision_microservices": "8 services instead of a monolith, because billing, stays, guests and F&B each have a genuinely distinct data model and lifecycle — not because microservices are fashionable.",
+  "security_heading": "Security",
+  "security_body": "Every JWT lives in an httpOnly cookie, so client-side JavaScript never sees it. Internal calls between services carry an HMAC-SHA256 signature, so a compromised internal network can't forge requests. Role-based access (admin, owner, receptionist) is enforced at both the gateway and the endpoint. Known accepted risks — like a Netty CVE mitigated by network isolation — are listed openly in the project's threat model, not hidden.",
+  "quality_heading": "Quality and process",
+  "quality_gates": "Every merge to main passes a zero-warning lint policy, an enforced coverage floor, end-to-end tests with automated accessibility checks, and a container image security scan — before it reaches production.",
+  "quality_coverage": "Measured 2026-08-04: 90.4% statement coverage on the frontend, 76.6% instruction coverage on the backend aggregate across 11 modules — both well above the floor the build enforces."
 }
