@@ -54,7 +54,7 @@ npm run test:e2e      # Playwright + axe on the built output
 
 ## 5. Content
 
-- No claim without proof: every claim in `src/content/claims.ts` has a `source` pointing to a
+- No claim without proof: every claim in `app/content/claims.ts` has a `source` pointing to a
   hotel-pms file or section; a test enforces it
 - Volatile numbers live only in `claims.ts`, with the measurement date
 - State known gaps openly
