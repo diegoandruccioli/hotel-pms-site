@@ -5,9 +5,9 @@ Single source of truth for where the project stands. Updated after every complet
 
 ## Current state
 
-- **Active phase:** phase 4 content complete: screenshots added (last open item). Waiting on PR #22 (hero CTA) and the new screenshots PR
+- **Active phase:** phase 4 done. Phases 0-5 all complete; only small polish items remain (see Known gaps)
 - **Last updated:** 2026-09-27
-- **Branch:** `feature/screenshots`; `main` at `460e1bd` after PR #21 (PR #22, hero CTA, still open)
+- **Branch:** `docs/phase4-complete` (this log update); `main` at `fcc5d75` after PR #23
 - **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public; `main` pushed 2026-09-26 at `409bdf8`)
 - **Repo settings applied 2026-09-26:** wiki and projects off, rebase merge off, delete branch on merge, update-branch suggestion, topics, description, secret scanning + push protection, Dependabot alerts + security updates, workflow token read-only, no PR approval by Actions, approval for all external fork contributors, SHA pinning required
 - **Ruleset `Protect main` active (2026-09-26):** PR required (0 approvals), conversation resolution, up-to-date branch, required checks `Quality — …` and `Browser — …`, no force push, no deletion, no bypass
@@ -21,7 +21,7 @@ Single source of truth for where the project stands. Updated after every complet
 | 1 Scaffold | Done | `e7966fd`, merge `991a7db` | `npm run build` prerenders `/` (EN) and `/it/` |
 | 2 CI | Done: PR #8 merged (`1468e51`). History: first CI run on `main` (2026-09-26): `quality` green, `browser` red (Lighthouse accessibility 0.86 and SEO 0.80 on both pages). Cause 1 (confirmed): URLs `/index.html` and `/it/index.html` match no client route, so hydration dropped `<title>` and meta description; fixed by auditing the preview server URLs. Cause 2 (confirmed from the CI artifact): `robots-txt` audit failed because `/robots.txt` fell back to HTML; fixed with `public/robots.txt`. Both in PR #8: CI green on both jobs (2026-09-26); phase 2 closed by the merge | `26dd637`, merge `4aa2d85` | An empty PR passes every job |
 | 3 Design system | Done: PR #12 merged (`417a70c`), deployed; axe AAA green on both pages in all four themes | `feature/design-system` | axe green on all four themes |
-| 4 Content | In progress: text sections merged (PR #17, #18, #19); SEO assets built locally, screenshots still open | Lighthouse ≥ 95 everywhere, every claim has a source |
+| 4 Content | Done: About, recruiter sections, hotels/status, SEO assets, hero CTA, screenshots — PR #17-#20, #22, #23 | Lighthouse ≥ 95 everywhere, every claim has a source |
 | 5 Publishing | Done: first deploy through Actions succeeded, `verify` job green (2026-09-26) | PR #10, merge `b9299f5` | Site live, A+ on securityheaders.com, no CSP violations |
 
 ## What exists
@@ -48,13 +48,15 @@ Measured against the plan on 2026-09-26.
 
 ## Next steps
 
-1. Review/merge PR #22 (hero CTA) and the screenshots PR.
-2. Phase 4 is then content-complete; only small gaps remain (favicon already done; PR/issue templates, securityheaders.com grade, live Lighthouse run).
+1. Approve the pending production deploy for PR #23 (screenshots), then check the live site.
+2. Remaining polish: PR/issue templates, securityheaders.com grade, a live Lighthouse run on the deployed URL.
+3. No new content section is planned; the site is functionally complete for its stated scope.
 
 ## Session log
 
 Newest first. One line per completed step: date, what, commit.
 
+- 2026-09-27 — Phase 4 complete: PR #22 (hero CTA, `06b8da7`) and PR #23 (screenshots, `fcc5d75`) merged into `main`.
 - 2026-09-27 — Screenshots: logged into the user's own already-running hotel-pms Docker stack (http://localhost/, admin/[password set by the user]) and captured 4 views (dashboard, reservations, calendar, billing) — all data is the app's own E2E seed fixtures ("Live Suite Guest", `E2E-LIVE-*`), never real guest data. Converted JPG → WebP with a one-off Playwright/canvas script (`scripts/convert-screenshots.mjs`, ~24-41 KB each). New `ScreenshotsSection` component, lazy-loaded images with explicit width/height and translated alt text; placed right after About. `claims.ts` entry states the source (own seed data) and date. 112 unit tests, 19 e2e tests pass; visual check in the browser (IT, dark theme).
 - 2026-09-27 — User approved the hero CTA. Built for real on `feature/hero-cta`: `hero_cta` i18n key (EN "Get in touch", IT "Contattami"), links to `mailto:` + `CONTACT_EMAIL` from `AboutSection`, `HomePage.test.tsx` asserts the link in both languages. 108 unit tests, 19 e2e tests pass. Confirmed the user's hotel-pms Docker stack is already up and healthy (gateway + 8 services + Postgres + Redis + observability), so screenshots no longer need a cold start.
 - 2026-09-27 — PR #21 merged (`460e1bd`).
