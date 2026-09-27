@@ -49,5 +49,11 @@
   "status_gap_receipts": "Electronic receipts for restaurant sales, mandatory by law since 2026-01-01.",
   "status_gap_credit_note": "A credit-note flow to correct an already-exported invoice.",
   "status_gap_channel_manager": "A channel manager connecting to OTAs — a prerequisite for most of the hotel market.",
-  "status_gap_booking": "A mobile app and an online booking engine with card payment."
+  "status_gap_booking": "A mobile app and an online booking engine with card payment.",
+  "screenshots_heading": "Screenshots",
+  "screenshots_intro": "Every screenshot below is the real application, running against its own end-to-end seed data — no photo of a real guest or a real hotel.",
+  "screenshots_dashboard_alt": "Dashboard showing today's arrivals, departures and room status.",
+  "screenshots_reservations_alt": "Reservations list with check-in, check-out and status for each stay.",
+  "screenshots_calendar_alt": "Room planning board for September, rooms down the side and dates across the top.",
+  "screenshots_billing_alt": "Invoice list, with the corrispettivi telematici pilot-mode notice visible at the top — the same gap stated in Status and roadmap above."
 }

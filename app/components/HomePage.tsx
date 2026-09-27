@@ -10,6 +10,7 @@ import { M3Card } from "./m3/M3Card";
 import { M3StatusChip } from "./m3/M3StatusChip";
 import { MAIN_CONTENT_ID } from "./SkipLink";
 import { QualitySection } from "./QualitySection";
+import { ScreenshotsSection } from "./ScreenshotsSection";
 import { SecuritySection } from "./SecuritySection";
 import { StatusSection } from "./StatusSection";
 
@@ -35,6 +36,7 @@ export function HomePage() {
           <p className="mt-3">{t("status_under_construction")}</p>
         </M3Card>
         <AboutSection />
+        <ScreenshotsSection />
         <ArchitectureSection />
         <DecisionsSection />
         <SecuritySection />
