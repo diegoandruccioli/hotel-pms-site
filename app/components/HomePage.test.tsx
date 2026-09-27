@@ -5,6 +5,7 @@ import { axe } from "vitest-axe";
 import { describe, expect, it } from "vitest";
 import { getI18n } from "../i18n";
 import type { Lang } from "../site";
+import { CONTACT_EMAIL } from "./AboutSection";
 import { HomePage } from "./HomePage";
 import { SkipLink } from "./SkipLink";
 
@@ -25,12 +26,14 @@ describe("HomePage", () => {
     expect(screen.getByRole("heading", { level: 1, name: "Hotel PMS" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Skip to main content" })).toHaveAttribute("href", "#main-content");
     expect(screen.getByRole("main")).toHaveAttribute("id", "main-content");
+    expect(screen.getByRole("link", { name: "Get in touch" })).toHaveAttribute("href", `mailto:${CONTACT_EMAIL}`);
   });
 
   it("renders the Italian page", () => {
     renderPage("it");
     expect(screen.getByText("Questa vetrina è in costruzione.")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Vai al contenuto principale" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Contattami" })).toHaveAttribute("href", `mailto:${CONTACT_EMAIL}`);
   });
 
   it.each<Lang>(["en", "it"])("has no accessibility violations (%s)", async (lang) => {

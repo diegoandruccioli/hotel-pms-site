@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { AboutSection } from "./AboutSection";
+import { AboutSection, CONTACT_EMAIL } from "./AboutSection";
 import { ArchitectureSection } from "./ArchitectureSection";
 import { AppearanceControls } from "./AppearanceControls";
 import { DecisionsSection } from "./DecisionsSection";
@@ -27,9 +27,8 @@ export function HomePage() {
       <main id={MAIN_CONTENT_ID} tabIndex={-1} className="px-6 py-16">
         <h1 className="font-display text-4xl font-semibold">{t("hero_title")}</h1>
         <p className="mt-4 max-w-prose text-lg">{t("hero_tagline")}</p>
-        {/* EXPERIMENT: visual preview only, not wired through i18n yet. */}
         <div className="mt-6">
-          <M3ButtonLink href="mailto:diegoandruccioli@gmail.com">Get in touch</M3ButtonLink>
+          <M3ButtonLink href={`mailto:${CONTACT_EMAIL}`}>{t("hero_cta")}</M3ButtonLink>
         </div>
         <M3Card className="mt-8 max-w-prose">
           <M3StatusChip tone="partial">{t("status_in_progress")}</M3StatusChip>
