@@ -5,9 +5,9 @@ Single source of truth for where the project stands. Updated after every complet
 
 ## Current state
 
-- **Active phase:** aesthetic-improvement pass, Steps 1-2 done; Steps 3-5 remain
+- **Active phase:** aesthetic-improvement pass, Steps 1-2 done; Step 3 (in-page nav) built locally on `feature/section-nav`
 - **Last updated:** 2026-09-28
-- **Branch:** `docs/step2-done` (this log update); `main` at `9895c62` after PR #27
+- **Branch:** `feature/section-nav`; `main` at `d2b4b11` after PR #28
 - **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public; `main` pushed 2026-09-26 at `409bdf8`)
 - **Repo settings applied 2026-09-26:** wiki and projects off, rebase merge off, delete branch on merge, update-branch suggestion, topics, description, secret scanning + push protection, Dependabot alerts + security updates, workflow token read-only, no PR approval by Actions, approval for all external fork contributors, SHA pinning required
 - **Ruleset `Protect main` active (2026-09-26):** PR required (0 approvals), conversation resolution, up-to-date branch, required checks `Quality — …` and `Browser — …`, no force push, no deletion, no bypass
@@ -52,7 +52,7 @@ Measured against the plan on 2026-09-26.
 
 ## Next steps
 
-1. Step 3: in-page navigation (sticky anchor bar).
+1. Push and review Step 3.
 2. Then Steps 4-5 (footer, logo wordmark), one PR each.
 3. Remaining polish (PR/issue templates, securityheaders.com grade, live Lighthouse run) stays open, unrelated to the aesthetic pass.
 
@@ -60,6 +60,7 @@ Measured against the plan on 2026-09-26.
 
 Newest first. One line per completed step: date, what, commit.
 
+- 2026-09-28 — Step 3: `SectionNav`, a sticky anchor bar for the 8 sections, reusing each section's own `*_heading` i18n key (one new key, `label_page_sections`, for the nav landmark). Current-section highlight via `IntersectionObserver`, progressive enhancement (prerendered HTML has none active). Along the way: jsdom has no `IntersectionObserver`, added a stub in `setupTests.ts`; and found a real bug in the per-theme axe e2e test (not in the app) — it forced `data-theme`/`data-contrast` via `page.evaluate(setAttribute)` after load, bypassing `AppearanceControls`' React state, so `aria-pressed` went stale while the CSS variables had already switched, producing a real, reproducible (not flaky) contrast failure axe was correctly catching in the *test*, not the product. Fixed by setting the choice in `localStorage` via `addInitScript` before navigation, like a real visitor, matching the pattern already used elsewhere in the file; reran the suite 4x clean after the fix. 120 unit tests, 23 e2e tests pass; visual check in the browser (nav sticks, highlights the section in view, click-to-anchor works).
 - 2026-09-28 — PR #27 merged (`9895c62`). Step 2 done: two-column hero with the dashboard screenshot, Lighthouse performance threshold lowered to 0.90 with the rationale recorded.
 - 2026-09-28 — User decided: lower the performance threshold rather than drop the hero image. `lighthouserc.json` performance minScore 0.95 → 0.90 (other three categories stay 0.95), `ci.yml` step name/comment updated with the rationale.
 - 2026-09-28 — Ordering the image first on mobile did not help either (CI still ~0.93-0.94; the image genuinely painted earlier per the artifact, but timing barely moved). Switched to local Lighthouse (`npx lighthouse@12 --form-factor=mobile`; works despite the known Windows EPERM cleanup error, since the report is written before that fires) to iterate faster than CI round-trips. Isolated the cause with an A/B on the same machine, same run: pre-image hero scores 0.96 perf, 2.3s FCP/LCP. Any eager hero image -- tested a 24 KB and a purpose-sized 6.5 KB variant, with and without `<link rel="preload">`, with and without mobile reordering -- lands at 0.91-0.92 perf, ~2.8s FCP/LCP. Image weight, preload, and DOM/visual order made no measurable difference; `loading="lazy"` was worse (0.87, LCP 3.7s, still the LCP element once it arrived). Conclusion: under Lighthouse's simulated mobile network, any above-the-fold image costs roughly 400-500ms of FCP and LCP from the network round trip alone, near-independent of its size -- a simulated-latency floor, not an implementation inefficiency. Kept the best-measured variant (eager, `fetchPriority="high"`, 460w default + 922w 2x via `srcSet`, no preload link) since it is no worse than the alternatives tried, and added `scripts/resize-hero.mjs`. Not pushed: this is a real trade-off against the project's stated `Lighthouse >= 95` bar (README, CLAUDE.md), not a bug to keep chasing -- flagged to the user for a decision before opening the PR.

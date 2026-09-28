@@ -3,6 +3,7 @@
   "meta_description": "Vetrina portfolio di Hotel PMS, un gestionale alberghiero a microservizi per gli hotel italiani: architettura, sicurezza, quality gate e stato reale del progetto.",
   "skip_to_content": "Vai al contenuto principale",
   "label_language": "Lingua",
+  "label_page_sections": "Sezioni della pagina",
   "action_switch_to_en": "Passa alla lingua inglese",
   "action_switch_to_it": "Passa alla lingua italiana",
   "label_appearance": "Aspetto",
