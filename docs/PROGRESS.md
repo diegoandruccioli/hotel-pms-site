@@ -5,9 +5,9 @@ Single source of truth for where the project stands. Updated after every complet
 
 ## Current state
 
-- **Active phase:** phases 0-4 done, phase 5 live. Now doing an aesthetic-improvement pass (5 steps, user-approved plan) on top of the finished site: Step 1 (full-width section bands) built locally on `feature/section-bands`
+- **Active phase:** aesthetic-improvement pass, Step 1 done (PR #25 merged); Steps 2-5 remain
 - **Last updated:** 2026-09-27
-- **Branch:** `feature/section-bands`; `main` at `4052a38` after PR #24
+- **Branch:** `docs/step1-done` (this log update); `main` at `0bf480f` after PR #25
 - **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public; `main` pushed 2026-09-26 at `409bdf8`)
 - **Repo settings applied 2026-09-26:** wiki and projects off, rebase merge off, delete branch on merge, update-branch suggestion, topics, description, secret scanning + push protection, Dependabot alerts + security updates, workflow token read-only, no PR approval by Actions, approval for all external fork contributors, SHA pinning required
 - **Ruleset `Protect main` active (2026-09-26):** PR required (0 approvals), conversation resolution, up-to-date branch, required checks `Quality — …` and `Browser — …`, no force push, no deletion, no bypass
@@ -48,14 +48,15 @@ Measured against the plan on 2026-09-26.
 
 ## Next steps
 
-1. Push and review Step 1 (`feature/section-bands`).
-2. Then Steps 2-5 of the aesthetic plan (hero screenshot, in-page nav, footer, logo wordmark), one PR each, only the ones the user confirms.
+1. Step 2: hero with a screenshot (two-column layout, dashboard.webp eager-loaded).
+2. Then Steps 3-5 (in-page nav, footer, logo wordmark), one PR each.
 3. Remaining polish (PR/issue templates, securityheaders.com grade, live Lighthouse run) stays open, unrelated to the aesthetic pass.
 
 ## Session log
 
 Newest first. One line per completed step: date, what, commit.
 
+- 2026-09-28 — PR #25 merged (`0bf480f`). First Lighthouse performance failure seen in this project: /it/ scored 0.94 on the first CI attempt (LCP 2.0-2.7s range, TBT 0ms, CLS 0.002 — no real regression signal). Reran the job; passed at 0.94 to 0.98 range second time. Conclusion: CI runner noise around a threshold with little margin, not caused by the section-band change (no images or heavy assets touched in this step).
 - 2026-09-28 — User asked for a comparative analysis of the site's aesthetic impact/professionalism/clarity vs current portfolio/showcase sites. Did WebSearch (2026 developer-portfolio benchmarks) plus a live review of the deployed site at desktop width. Verdict: content 9/10, visual packaging 5/10 — single narrow column with a dead right-hand side on wide screens, 8 identical stacked cards with no rhythm, text-only hero, no in-page nav despite a long page, no footer, wordmark not using the favicon mark. User approved a 5-step fix plan; started with Step 1: new `SectionBand` component (full-width band, alternating `bg-surface`/`bg-surface-container-low` tone, centred `max-w-3xl` — or `max-w-4xl` for Screenshots — inner column), all 8 section components refactored onto it (replacing the old `M3Card`-per-section pattern), hero content wrapped in its own centred container. 116 unit tests, 19 e2e tests pass; visual check at 1600px width in both themes confirms the dead space is gone and the tone alternation reads.
 - 2026-09-27 — Phase 4 complete: PR #22 (hero CTA, `06b8da7`) and PR #23 (screenshots, `fcc5d75`) merged into `main`.
 - 2026-09-27 — Screenshots: logged into the user's own already-running hotel-pms Docker stack (http://localhost/, admin/[password set by the user]) and captured 4 views (dashboard, reservations, calendar, billing) — all data is the app's own E2E seed fixtures ("Live Suite Guest", `E2E-LIVE-*`), never real guest data. Converted JPG → WebP with a one-off Playwright/canvas script (`scripts/convert-screenshots.mjs`, ~24-41 KB each). New `ScreenshotsSection` component, lazy-loaded images with explicit width/height and translated alt text; placed right after About. `claims.ts` entry states the source (own seed data) and date. 112 unit tests, 19 e2e tests pass; visual check in the browser (IT, dark theme).
