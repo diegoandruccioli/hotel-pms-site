@@ -5,9 +5,9 @@ Single source of truth for where the project stands. Updated after every complet
 
 ## Current state
 
-- **Active phase:** aesthetic-improvement pass, all 5 steps done locally (Step 5 on `feature/logo`); pushing/merging the last one closes the pass
+- **Active phase:** aesthetic-improvement pass complete (all 5 steps merged). Remaining open items are the pre-existing small gaps (see Known gaps)
 - **Last updated:** 2026-09-28
-- **Branch:** `feature/logo`; `main` at `23dd013` after PR #30
+- **Branch:** `docs/aesthetic-pass-done` (this log update); `main` at `051da89` after PR #31
 - **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public; `main` pushed 2026-09-26 at `409bdf8`)
 - **Repo settings applied 2026-09-26:** wiki and projects off, rebase merge off, delete branch on merge, update-branch suggestion, topics, description, secret scanning + push protection, Dependabot alerts + security updates, workflow token read-only, no PR approval by Actions, approval for all external fork contributors, SHA pinning required
 - **Ruleset `Protect main` active (2026-09-26):** PR required (0 approvals), conversation resolution, up-to-date branch, required checks `Quality — …` and `Browser — …`, no force push, no deletion, no bypass
@@ -52,8 +52,9 @@ Measured against the plan on 2026-09-26.
 
 ## Next steps
 
-1. Push and review Step 5, the last one.
-2. Then back to the pre-existing gaps: PR/issue templates, securityheaders.com grade, a live Lighthouse run.
+1. Approve the pending production deploy (PR #31 merge), then check the live site.
+2. Pre-existing gaps: PR/issue templates, securityheaders.com grade, a live Lighthouse run on the deployed URL.
+3. `material-symbols` icon font still deferred until the first icon is actually needed.
 3. Remaining polish (PR/issue templates, securityheaders.com grade, live Lighthouse run) stays open, unrelated to the aesthetic pass.
 
 ## Session log
@@ -61,6 +62,7 @@ Measured against the plan on 2026-09-26.
 Newest first. One line per completed step: date, what, commit.
 
 - 2026-09-28 — Step 3: `SectionNav`, a sticky anchor bar for the 8 sections, reusing each section's own `*_heading` i18n key (one new key, `label_page_sections`, for the nav landmark). Current-section highlight via `IntersectionObserver`, progressive enhancement (prerendered HTML has none active). Along the way: jsdom has no `IntersectionObserver`, added a stub in `setupTests.ts`; and found a real bug in the per-theme axe e2e test (not in the app) — it forced `data-theme`/`data-contrast` via `page.evaluate(setAttribute)` after load, bypassing `AppearanceControls`' React state, so `aria-pressed` went stale while the CSS variables had already switched, producing a real, reproducible (not flaky) contrast failure axe was correctly catching in the *test*, not the product. Fixed by setting the choice in `localStorage` via `addInitScript` before navigation, like a real visitor, matching the pattern already used elsewhere in the file; reran the suite 4x clean after the fix. 120 unit tests, 23 e2e tests pass; visual check in the browser (nav sticks, highlights the section in view, click-to-anchor works).
+- 2026-09-28 — Aesthetic-improvement pass complete: PR #31 merged (`051da89`). All 5 steps shipped (section bands, hero screenshot with a Lighthouse-threshold trade-off recorded above, sticky in-page nav, footer, logo mark), each its own PR with green CI.
 - 2026-09-28 — Step 5 (last of the plan): `Logo`, a live version of `public/favicon.svg`'s monogram on M3 tokens (`bg-primary`/`text-on-primary`) so it follows the active theme, `aria-hidden` since the adjacent site name already gives the accessible name. Placed next to the wordmark in the header. 125 unit tests, 23 e2e tests pass; visual check in the browser.
 - 2026-09-28 — Step 4: `Footer` component (contact repeated with the same `CONTACT_EMAIL`, dynamic copyright year via `useMemo`, no code link, no personal links). Two new i18n keys (`footer_contact`, `footer_copyright`). 123 unit tests, 23 e2e tests pass; visual check in the browser.
 - 2026-09-28 — PR #27 merged (`9895c62`). Step 2 done: two-column hero with the dashboard screenshot, Lighthouse performance threshold lowered to 0.90 with the rationale recorded.
