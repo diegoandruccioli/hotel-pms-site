@@ -5,9 +5,9 @@ Single source of truth for where the project stands. Updated after every complet
 
 ## Current state
 
-- **Active phase:** aesthetic-improvement pass, Step 1 done; Step 2 (hero screenshot) ready to push (performance threshold lowered per the user's decision, see Known gaps)
+- **Active phase:** aesthetic-improvement pass, Steps 1-2 done; Steps 3-5 remain
 - **Last updated:** 2026-09-28
-- **Branch:** `feature/hero-screenshot`; `main` at `ffa2409` after PR #26
+- **Branch:** `docs/step2-done` (this log update); `main` at `9895c62` after PR #27
 - **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public; `main` pushed 2026-09-26 at `409bdf8`)
 - **Repo settings applied 2026-09-26:** wiki and projects off, rebase merge off, delete branch on merge, update-branch suggestion, topics, description, secret scanning + push protection, Dependabot alerts + security updates, workflow token read-only, no PR approval by Actions, approval for all external fork contributors, SHA pinning required
 - **Ruleset `Protect main` active (2026-09-26):** PR required (0 approvals), conversation resolution, up-to-date branch, required checks `Quality — …` and `Browser — …`, no force push, no deletion, no bypass
@@ -52,14 +52,15 @@ Measured against the plan on 2026-09-26.
 
 ## Next steps
 
-1. Push and review Step 2.
-2. Then Steps 3-5 (in-page nav, footer, logo wordmark), one PR each.
+1. Step 3: in-page navigation (sticky anchor bar).
+2. Then Steps 4-5 (footer, logo wordmark), one PR each.
 3. Remaining polish (PR/issue templates, securityheaders.com grade, live Lighthouse run) stays open, unrelated to the aesthetic pass.
 
 ## Session log
 
 Newest first. One line per completed step: date, what, commit.
 
+- 2026-09-28 — PR #27 merged (`9895c62`). Step 2 done: two-column hero with the dashboard screenshot, Lighthouse performance threshold lowered to 0.90 with the rationale recorded.
 - 2026-09-28 — User decided: lower the performance threshold rather than drop the hero image. `lighthouserc.json` performance minScore 0.95 → 0.90 (other three categories stay 0.95), `ci.yml` step name/comment updated with the rationale.
 - 2026-09-28 — Ordering the image first on mobile did not help either (CI still ~0.93-0.94; the image genuinely painted earlier per the artifact, but timing barely moved). Switched to local Lighthouse (`npx lighthouse@12 --form-factor=mobile`; works despite the known Windows EPERM cleanup error, since the report is written before that fires) to iterate faster than CI round-trips. Isolated the cause with an A/B on the same machine, same run: pre-image hero scores 0.96 perf, 2.3s FCP/LCP. Any eager hero image -- tested a 24 KB and a purpose-sized 6.5 KB variant, with and without `<link rel="preload">`, with and without mobile reordering -- lands at 0.91-0.92 perf, ~2.8s FCP/LCP. Image weight, preload, and DOM/visual order made no measurable difference; `loading="lazy"` was worse (0.87, LCP 3.7s, still the LCP element once it arrived). Conclusion: under Lighthouse's simulated mobile network, any above-the-fold image costs roughly 400-500ms of FCP and LCP from the network round trip alone, near-independent of its size -- a simulated-latency floor, not an implementation inefficiency. Kept the best-measured variant (eager, `fetchPriority="high"`, 460w default + 922w 2x via `srcSet`, no preload link) since it is no worse than the alternatives tried, and added `scripts/resize-hero.mjs`. Not pushed: this is a real trade-off against the project's stated `Lighthouse >= 95` bar (README, CLAUDE.md), not a bug to keep chasing -- flagged to the user for a decision before opening the PR.
 - 2026-09-28 — Preload alone did not fix it (`/` regressed too, 0.92-0.93, `/it/` still 0.93). Diagnosed via the Lighthouse artifact: `prioritize-lcp-image` audit passed (preload worked), but Lighthouse's default mobile emulation collapses the hero to one column, so the image sits *after* the full text block (`boundingRect.top` ≈ 580px) — that's what delayed LCP, not resource discovery. Fix: `order-1 md:order-none` on the image, `order-2 md:order-none` on the text column, so the screenshot paints first on narrow viewports (desktop keeps text-left/image-right; DOM/reading order for assistive tech is unaffected, `order` is visual-only). Also hit one flaky axe failure (dark high contrast, wrong `--md-primary` value read — passed in isolation and on a full rerun, pre-existing test flakiness unrelated to this change, not investigated further here).
