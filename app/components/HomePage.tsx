@@ -6,6 +6,7 @@ import { DecisionsSection } from "./DecisionsSection";
 import { Footer } from "./Footer";
 import { HotelsSection } from "./HotelsSection";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { Logo } from "./Logo";
 import { M3ButtonLink } from "./m3/M3ButtonLink";
 import { M3Card } from "./m3/M3Card";
 import { M3StatusChip } from "./m3/M3StatusChip";
@@ -21,7 +22,10 @@ export function HomePage() {
   return (
     <>
       <header className="flex items-center justify-between px-6 py-4">
-        <span className="font-display text-lg font-semibold">{t("hero_title")}</span>
+        <span className="flex items-center gap-2 font-display text-lg font-semibold">
+          <Logo />
+          {t("hero_title")}
+        </span>
         <div className="flex flex-wrap items-center gap-4">
           <AppearanceControls />
           <LanguageSwitcher />
