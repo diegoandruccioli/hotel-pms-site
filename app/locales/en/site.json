@@ -12,6 +12,8 @@
   "hero_title": "Hotel PMS",
   "hero_tagline": "A property management system for Italian hotels, built as microservices and documented honestly.",
   "hero_cta": "Get in touch",
+  "footer_contact": "Questions or a demo request: <email>{{email}}</email>",
+  "footer_copyright": "© {{year}} Diego Andruccioli. Hotel PMS is actively maintained.",
   "hero_screenshot_alt": "Hotel PMS dashboard, showing today's arrivals, departures and room status.",
   "status_in_progress": "In progress",
   "status_under_construction": "This showcase is under construction.",

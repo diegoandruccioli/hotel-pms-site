@@ -3,6 +3,7 @@ import { AboutSection, CONTACT_EMAIL } from "./AboutSection";
 import { ArchitectureSection } from "./ArchitectureSection";
 import { AppearanceControls } from "./AppearanceControls";
 import { DecisionsSection } from "./DecisionsSection";
+import { Footer } from "./Footer";
 import { HotelsSection } from "./HotelsSection";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { M3ButtonLink } from "./m3/M3ButtonLink";
@@ -72,6 +73,7 @@ export function HomePage() {
         <HotelsSection tone="default" />
         <StatusSection tone="muted" />
       </main>
+      <Footer />
     </>
   );
 }
