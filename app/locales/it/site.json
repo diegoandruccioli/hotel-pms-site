@@ -11,6 +11,7 @@
   "hero_title": "Hotel PMS",
   "hero_tagline": "Un gestionale per gli hotel italiani, costruito a microservizi e documentato con onestà.",
   "hero_cta": "Contattami",
+  "hero_screenshot_alt": "Bacheca di Hotel PMS, con arrivi, partenze e stato delle camere di oggi.",
   "status_in_progress": "In corso",
   "status_under_construction": "Questa vetrina è in costruzione.",
   "about_heading": "Il progetto",
