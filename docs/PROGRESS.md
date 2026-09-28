@@ -7,7 +7,7 @@ Single source of truth for where the project stands. Updated after every complet
 
 - **Active phase:** aesthetic-improvement pass complete (all 5 steps merged). Remaining open items are the pre-existing small gaps (see Known gaps)
 - **Last updated:** 2026-09-28
-- **Branch:** `docs/sync-pr34` (this log update); `main` at `05e3a3d` after PR #34. Live and verified on `/` and `/it/`; aesthetic-improvement pass fully closed
+- **Branch:** `docs/sync-pr35` (this log update); `main` at `bd3da17` after PR #35. Live and verified; aesthetic-improvement pass fully closed
 - **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public; `main` pushed 2026-09-26 at `409bdf8`)
 - **Repo settings applied 2026-09-26:** wiki and projects off, rebase merge off, delete branch on merge, update-branch suggestion, topics, description, secret scanning + push protection, Dependabot alerts + security updates, workflow token read-only, no PR approval by Actions, approval for all external fork contributors, SHA pinning required
 - **Ruleset `Protect main` active (2026-09-26):** PR required (0 approvals), conversation resolution, up-to-date branch, required checks `Quality — …` and `Browser — …`, no force push, no deletion, no bypass
@@ -45,6 +45,7 @@ Measured against the plan on 2026-09-26.
 - No PR or issue templates.
 - Cloudflare adds `Access-Control-Allow-Origin: *` to static files; harmless for a site with no private data, listed as an accepted risk in `SECURITY.md`.
 - securityheaders.com grade not checked yet (target A+); Lighthouse on the live URL not run yet.
+- `deploy.yml` triggers on every push to `main`, including docs-only changes (`docs/PROGRESS.md`). Each of the last several progress-log commits produced its own PR, its own deploy, and its own approval request for no site change — worth adding a path filter (skip `docs/**`, `*.md`) so only real site changes need a deploy approval.
 - Lighthouse `performance` threshold lowered from 0.95 to 0.90 (`lighthouserc.json`, `ci.yml`
   comment), a deliberate trade-off for the hero screenshot: it costs ~4-9 points on Lighthouse's
   simulated mobile network regardless of image weight or loading strategy (see session log,
@@ -62,6 +63,7 @@ Measured against the plan on 2026-09-26.
 Newest first. One line per completed step: date, what, commit.
 
 - 2026-09-28 — Step 3: `SectionNav`, a sticky anchor bar for the 8 sections, reusing each section's own `*_heading` i18n key (one new key, `label_page_sections`, for the nav landmark). Current-section highlight via `IntersectionObserver`, progressive enhancement (prerendered HTML has none active). Along the way: jsdom has no `IntersectionObserver`, added a stub in `setupTests.ts`; and found a real bug in the per-theme axe e2e test (not in the app) — it forced `data-theme`/`data-contrast` via `page.evaluate(setAttribute)` after load, bypassing `AppearanceControls`' React state, so `aria-pressed` went stale while the CSS variables had already switched, producing a real, reproducible (not flaky) contrast failure axe was correctly catching in the *test*, not the product. Fixed by setting the choice in `localStorage` via `addInitScript` before navigation, like a real visitor, matching the pattern already used elsewhere in the file; reran the suite 4x clean after the fix. 120 unit tests, 23 e2e tests pass; visual check in the browser (nav sticks, highlights the section in view, click-to-anchor works).
+- 2026-09-28 — PR #35 merged (`bd3da17`). Noticed the docs-only sync commits from this session each triggered their own deploy + approval request; flagged as a gap (path filter on `deploy.yml`) rather than fixed here, to avoid scope creep on the aesthetic pass.
 - 2026-09-28 — PR #34 merged (`05e3a3d`), its deploy approved and green. Re-confirmed `/` and `/it/` both respond 200 on the live site. Aesthetic-improvement pass fully closed, nothing pending.
 - 2026-09-28 — PR #33 merged (`62c4a7d`). User approved both pending deploys; confirmed the live site responds 200 on `/` and `/it/`.
 - 2026-09-28 — PR #32 merged (`4acff59`), syncing this log onto `main`. Deploy for `051da89` (PR #31, logo) waiting on the user's approval in the `production` environment.
