@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { M3Card } from "./m3/M3Card";
+import { SectionBand, type SectionTone } from "./SectionBand";
 
 interface Screenshot {
   file: string;
@@ -16,10 +16,10 @@ const SCREENSHOTS: readonly Screenshot[] = [
   { file: "billing", altKey: "screenshots_billing_alt", width: 1280, height: 613 },
 ];
 
-export function ScreenshotsSection() {
+export function ScreenshotsSection({ tone }: { tone?: SectionTone }) {
   const { t } = useTranslation("site");
   return (
-    <M3Card className="mt-12 max-w-3xl" aria-labelledby="screenshots-heading">
+    <SectionBand id="screenshots" headingId="screenshots-heading" tone={tone} innerClassName="max-w-4xl">
       <h2 id="screenshots-heading" className="font-display text-2xl font-semibold">
         {t("screenshots_heading")}
       </h2>
@@ -38,6 +38,6 @@ export function ScreenshotsSection() {
           />
         ))}
       </div>
-    </M3Card>
+    </SectionBand>
   );
 }
