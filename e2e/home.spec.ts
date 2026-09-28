@@ -67,11 +67,19 @@ for (const page of PAGES) {
     test(`${page.path} has no axe violations in the ${theme.name} theme`, async ({ page: browserPage }) => {
       // The global colour transition would let axe sample mid-fade colours.
       await browserPage.emulateMedia({ reducedMotion: "reduce" });
+      // Set the choice in localStorage before navigating, like a real visitor, instead of poking
+      // the <html> attributes after load: that bypassed AppearanceControls' React state (it only
+      // learns of a theme change through setTheme/setContrast), leaving aria-pressed stale while
+      // the CSS custom properties had already switched — an internally-inconsistent button axe
+      // correctly flagged, not a real bug a visitor could reach.
+      await browserPage.addInitScript(
+        ({ theme: t, contrast }) => {
+          localStorage.setItem("theme", t);
+          localStorage.setItem("contrast", contrast);
+        },
+        theme,
+      );
       await browserPage.goto(page.path);
-      await browserPage.evaluate(({ theme: t, contrast }) => {
-        document.documentElement.setAttribute("data-theme", t);
-        document.documentElement.setAttribute("data-contrast", contrast);
-      }, theme);
       const results = await new AxeBuilder({ page: browserPage })
         .withTags(["wcag2a", "wcag2aa", "wcag2aaa", "wcag21a", "wcag21aa", "wcag22aa"])
         .analyze();
@@ -120,5 +128,23 @@ test.describe("appearance follows the browser until the visitor chooses", () => 
     await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
     await expect(page.locator("html")).toHaveAttribute("data-contrast", "high");
     await expect(page.getByRole("button", { name: "Dark theme" })).toHaveAttribute("aria-pressed", "true");
+  });
+});
+
+test.describe("section navigation", () => {
+  test("clicking an anchor jumps to the section and marks it current", async ({ page }) => {
+    await page.goto("/");
+    const nav = page.getByRole("navigation", { name: "Page sections" });
+    await nav.getByRole("link", { name: "Decisions and trade-offs" }).click();
+    await expect(page).toHaveURL(/#decisions$/);
+    await expect(page.locator("#decisions")).toBeInViewport();
+    await expect(nav.getByRole("link", { name: "Decisions and trade-offs" })).toHaveAttribute("aria-current", "true");
+  });
+
+  test("highlights the current section while scrolling, without a click", async ({ page }) => {
+    await page.goto("/");
+    const nav = page.getByRole("navigation", { name: "Page sections" });
+    await page.locator("#status").scrollIntoViewIfNeeded();
+    await expect(nav.getByRole("link", { name: "Status and roadmap" })).toHaveAttribute("aria-current", "true");
   });
 });

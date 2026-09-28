@@ -11,6 +11,7 @@ import { M3StatusChip } from "./m3/M3StatusChip";
 import { MAIN_CONTENT_ID } from "./SkipLink";
 import { QualitySection } from "./QualitySection";
 import { ScreenshotsSection } from "./ScreenshotsSection";
+import { SectionNav } from "./SectionNav";
 import { SecuritySection } from "./SecuritySection";
 import { StatusSection } from "./StatusSection";
 
@@ -60,6 +61,7 @@ export function HomePage() {
             />
           </div>
         </div>
+        <SectionNav />
         {/* Full-width bands below, alternating tone for visual rhythm (SectionBand). */}
         <AboutSection tone="default" />
         <ScreenshotsSection tone="muted" />

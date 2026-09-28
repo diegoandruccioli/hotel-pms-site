@@ -3,6 +3,7 @@
   "meta_description": "Portfolio showcase of Hotel PMS, a microservices property management system for Italian hotels: architecture, security, quality gates and honest project status.",
   "skip_to_content": "Skip to main content",
   "label_language": "Language",
+  "label_page_sections": "Page sections",
   "action_switch_to_en": "Switch language to English",
   "action_switch_to_it": "Switch language to Italian",
   "label_appearance": "Appearance",
