@@ -51,7 +51,6 @@ export function HomePage() {
               height={441}
               loading="eager"
               fetchPriority="high"
-              decoding="async"
               className="w-full rounded-shape-md border border-outline-variant shadow-elevation-2"
             />
           </div>
