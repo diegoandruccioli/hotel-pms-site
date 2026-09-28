@@ -30,7 +30,10 @@ export function HomePage() {
             Wider than the max-w-3xl text sections below — it has a second column to hold. */}
         <div className="mx-auto max-w-5xl px-6 py-16">
           <div className="grid items-center gap-10 md:grid-cols-2">
-            <div>
+            {/* On narrow screens the grid collapses to one column: `order` puts the screenshot
+                first there (it's the fastest LCP candidate, and the strongest visual proof to
+                lead with on mobile too), while `md:order-none` restores text-left/image-right. */}
+            <div className="order-2 md:order-none">
               <h1 className="font-display text-4xl font-semibold">{t("hero_title")}</h1>
               <p className="mt-4 max-w-prose text-lg">{t("hero_tagline")}</p>
               <div className="mt-6">
@@ -51,7 +54,7 @@ export function HomePage() {
               height={441}
               loading="eager"
               fetchPriority="high"
-              className="w-full rounded-shape-md border border-outline-variant shadow-elevation-2"
+              className="order-1 w-full rounded-shape-md border border-outline-variant shadow-elevation-2 md:order-none"
             />
           </div>
         </div>
