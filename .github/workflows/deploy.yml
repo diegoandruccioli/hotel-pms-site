@@ -18,12 +18,50 @@ concurrency:
 # ══════════════════════════════════════════════════════════════════════════════
 jobs:
 
-  # ── Job 1: Build the exact commit the quality gate approved ─────────────────
-  build:
-    name: "Build — prerendered site and _headers"
+  # ── Job 1: Skip everything below when the push couldn't have changed the built
+  #           site (e.g. docs/PROGRESS.md only) — no deploy, no approval request. ─
+  changes:
+    name: "Changes — did the site itself change?"
     if: >-
       github.event_name == 'workflow_dispatch' ||
       (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      site: ${{ steps.filter.outputs.site }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          fetch-depth: 2
+
+      - name: Detect whether any built-site input changed
+        id: filter
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manual run: deploying regardless of what last changed."
+            echo "site=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          changed=$(git diff --name-only HEAD^ HEAD)
+          echo "Changed files:"
+          echo "$changed"
+          # Docs, licence and templates never affect `npm run build`'s output; anything else does.
+          if echo "$changed" | grep -qvE '^(docs/|\.github/(ISSUE_TEMPLATE|PULL_REQUEST_TEMPLATE)/|.*\.md$|LICENSE$)'; then
+            echo "site=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Only docs/licence/templates changed — skipping the deploy."
+            echo "site=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  # ── Job 2: Build the exact commit the quality gate approved ─────────────────
+  build:
+    name: "Build — prerendered site and _headers"
+    needs: changes
+    if: needs.changes.outputs.site == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -53,7 +91,7 @@ jobs:
           path: build/client
           if-no-files-found: error
 
-  # ── Job 2: Publish (production environment: approval + main only) ───────────
+  # ── Job 3: Publish (production environment: approval + main only) ───────────
   deploy:
     name: "Deploy — Cloudflare Pages"
     needs: build
@@ -79,7 +117,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy site --project-name=hotel-pms-site --branch=main
 
-  # ── Job 3: Verify the published headers ─────────────────────────────────────
+  # ── Job 4: Verify the published headers ─────────────────────────────────────
   verify:
     name: "Verify — security headers on the live site"
     needs: deploy
