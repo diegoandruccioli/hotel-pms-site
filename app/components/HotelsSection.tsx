@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { CONTACT_EMAIL } from "./AboutSection";
-import { M3Card } from "./m3/M3Card";
 import { M3ButtonLink } from "./m3/M3ButtonLink";
+import { SectionBand, type SectionTone } from "./SectionBand";
 
 // One i18n key per line of README/compliance-audit fact; each has its own claims.ts entry.
 const COMPLIANCE_KEYS = [
@@ -12,12 +12,12 @@ const COMPLIANCE_KEYS = [
   "hotels_compliance_gdpr",
 ] as const;
 
-export function HotelsSection() {
+export function HotelsSection({ tone }: { tone?: SectionTone }) {
   const { t } = useTranslation("site");
   const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(t("hotels_cta_subject"))}`;
 
   return (
-    <M3Card className="mt-12 max-w-prose" aria-labelledby="hotels-heading">
+    <SectionBand id="hotels" headingId="hotels-heading" tone={tone}>
       <h2 id="hotels-heading" className="font-display text-2xl font-semibold">
         {t("hotels_heading")}
       </h2>
@@ -31,6 +31,6 @@ export function HotelsSection() {
       <div className="mt-6">
         <M3ButtonLink href={mailto}>{t("hotels_cta")}</M3ButtonLink>
       </div>
-    </M3Card>
+    </SectionBand>
   );
 }

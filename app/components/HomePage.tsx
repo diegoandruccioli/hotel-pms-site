@@ -25,24 +25,28 @@ export function HomePage() {
           <LanguageSwitcher />
         </div>
       </header>
-      <main id={MAIN_CONTENT_ID} tabIndex={-1} className="px-6 py-16">
-        <h1 className="font-display text-4xl font-semibold">{t("hero_title")}</h1>
-        <p className="mt-4 max-w-prose text-lg">{t("hero_tagline")}</p>
-        <div className="mt-6">
-          <M3ButtonLink href={`mailto:${CONTACT_EMAIL}`}>{t("hero_cta")}</M3ButtonLink>
+      <main id={MAIN_CONTENT_ID} tabIndex={-1}>
+        {/* Hero: the only section not on the SectionBand grid, since it has no heading id to link to. */}
+        <div className="mx-auto max-w-3xl px-6 py-16">
+          <h1 className="font-display text-4xl font-semibold">{t("hero_title")}</h1>
+          <p className="mt-4 max-w-prose text-lg">{t("hero_tagline")}</p>
+          <div className="mt-6">
+            <M3ButtonLink href={`mailto:${CONTACT_EMAIL}`}>{t("hero_cta")}</M3ButtonLink>
+          </div>
+          <M3Card className="mt-8 max-w-prose">
+            <M3StatusChip tone="partial">{t("status_in_progress")}</M3StatusChip>
+            <p className="mt-3">{t("status_under_construction")}</p>
+          </M3Card>
         </div>
-        <M3Card className="mt-8 max-w-prose">
-          <M3StatusChip tone="partial">{t("status_in_progress")}</M3StatusChip>
-          <p className="mt-3">{t("status_under_construction")}</p>
-        </M3Card>
-        <AboutSection />
-        <ScreenshotsSection />
-        <ArchitectureSection />
-        <DecisionsSection />
-        <SecuritySection />
-        <QualitySection />
-        <HotelsSection />
-        <StatusSection />
+        {/* Full-width bands below, alternating tone for visual rhythm (SectionBand). */}
+        <AboutSection tone="default" />
+        <ScreenshotsSection tone="muted" />
+        <ArchitectureSection tone="default" />
+        <DecisionsSection tone="muted" />
+        <SecuritySection tone="default" />
+        <QualitySection tone="muted" />
+        <HotelsSection tone="default" />
+        <StatusSection tone="muted" />
       </main>
     </>
   );

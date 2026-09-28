@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { M3Card } from "./m3/M3Card";
+import { SectionBand, type SectionTone } from "./SectionBand";
 
 // The i18n keys, in display order. Each is one row of README.md's "Key Technical Decisions
 // & Trade-offs" table and has its own claims.ts entry citing that row.
@@ -11,10 +11,10 @@ const DECISION_KEYS = [
   "decision_microservices",
 ] as const;
 
-export function DecisionsSection() {
+export function DecisionsSection({ tone }: { tone?: SectionTone }) {
   const { t } = useTranslation("site");
   return (
-    <M3Card className="mt-12 max-w-prose" aria-labelledby="decisions-heading">
+    <SectionBand id="decisions" headingId="decisions-heading" tone={tone}>
       <h2 id="decisions-heading" className="font-display text-2xl font-semibold">
         {t("decisions_heading")}
       </h2>
@@ -24,6 +24,6 @@ export function DecisionsSection() {
           <li key={key}>{t(key)}</li>
         ))}
       </ul>
-    </M3Card>
+    </SectionBand>
   );
 }

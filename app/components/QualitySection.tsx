@@ -1,10 +1,10 @@
 import { useTranslation } from "react-i18next";
-import { M3Card } from "./m3/M3Card";
+import { SectionBand, type SectionTone } from "./SectionBand";
 
-export function QualitySection() {
+export function QualitySection({ tone }: { tone?: SectionTone }) {
   const { t } = useTranslation("site");
   return (
-    <M3Card className="mt-12 max-w-prose" aria-labelledby="quality-heading">
+    <SectionBand id="quality" headingId="quality-heading" tone={tone}>
       <h2 id="quality-heading" className="font-display text-2xl font-semibold">
         {t("quality_heading")}
       </h2>
@@ -14,6 +14,6 @@ export function QualitySection() {
           Text colour stays on-surface (not on-surface-variant): tokens.test.ts only proves
           7:1 contrast for on-surface-variant against surface-variant, not against surface. */}
       <p className="mt-3 text-sm">{t("quality_coverage")}</p>
-    </M3Card>
+    </SectionBand>
   );
 }

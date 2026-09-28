@@ -1,5 +1,5 @@
 import { Trans, useTranslation } from "react-i18next";
-import { M3Card } from "./m3/M3Card";
+import { SectionBand, type SectionTone } from "./SectionBand";
 
 export const CONTACT_EMAIL = "diegoandruccioli@gmail.com";
 
@@ -11,10 +11,10 @@ const EMAIL_LINK = <a className="text-primary underline underline-offset-4" href
 const CONTACT_COMPONENTS = { email: EMAIL_LINK };
 
 /** Product-first project summary: what Hotel PMS is and how to reach out, not a personal bio. */
-export function AboutSection() {
+export function AboutSection({ tone }: { tone?: SectionTone }) {
   const { t } = useTranslation("site");
   return (
-    <M3Card className="mt-12 max-w-prose" aria-labelledby="about-heading">
+    <SectionBand id="about" headingId="about-heading" tone={tone}>
       <h2 id="about-heading" className="font-display text-2xl font-semibold">
         {t("about_heading")}
       </h2>
@@ -22,6 +22,6 @@ export function AboutSection() {
       <p className="mt-3">
         <Trans t={t} i18nKey="about_contact" values={CONTACT_VALUES} components={CONTACT_COMPONENTS} />
       </p>
-    </M3Card>
+    </SectionBand>
   );
 }
