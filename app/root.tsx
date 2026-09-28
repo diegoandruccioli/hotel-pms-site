@@ -10,10 +10,6 @@ export function links() {
   return [
     { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
     { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
-    // The hero screenshot is the LCP element (HomePage.tsx); preloading it lets the browser's
-    // preload scanner start the fetch before CSS/JS are parsed, instead of waiting for React
-    // to render the <img> tag.
-    { rel: "preload", as: "image", href: "/screenshots/dashboard.webp", fetchPriority: "high" },
   ];
 }
 

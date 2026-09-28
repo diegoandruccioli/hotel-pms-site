@@ -46,7 +46,7 @@ for (const page of PAGES) {
 
     test("shows the dashboard screenshot above the fold, eager-loaded", async ({ page: browserPage }) => {
       await browserPage.goto(page.path);
-      const heroImage = browserPage.locator('main img[src="/screenshots/dashboard.webp"]').first();
+      const heroImage = browserPage.locator('main img[src="/screenshots/dashboard-460.webp"]');
       await expect(heroImage).toBeVisible();
       await expect(heroImage).toHaveJSProperty("loading", "eager");
       await expect(heroImage).toHaveJSProperty("complete", true);

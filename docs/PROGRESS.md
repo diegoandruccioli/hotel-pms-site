@@ -5,9 +5,9 @@ Single source of truth for where the project stands. Updated after every complet
 
 ## Current state
 
-- **Active phase:** aesthetic-improvement pass, Step 1 done; Step 2 (hero screenshot) built locally on `feature/hero-screenshot`
-- **Last updated:** 2026-09-27
-- **Branch:** `feature/hero-screenshot`; `main` at `ffa2409` after PR #26
+- **Active phase:** aesthetic-improvement pass, Step 1 done; Step 2 (hero screenshot) code-complete but paused on a real Lighthouse trade-off (see Known gaps), waiting for a user decision before pushing
+- **Last updated:** 2026-09-28
+- **Branch:** `feature/hero-screenshot` (local only, not pushed since the last fix); `main` at `ffa2409` after PR #26
 - **Remote:** `origin` = https://github.com/diegoandruccioli/hotel-pms-site (public; `main` pushed 2026-09-26 at `409bdf8`)
 - **Repo settings applied 2026-09-26:** wiki and projects off, rebase merge off, delete branch on merge, update-branch suggestion, topics, description, secret scanning + push protection, Dependabot alerts + security updates, workflow token read-only, no PR approval by Actions, approval for all external fork contributors, SHA pinning required
 - **Ruleset `Protect main` active (2026-09-26):** PR required (0 approvals), conversation resolution, up-to-date branch, required checks `Quality — …` and `Browser — …`, no force push, no deletion, no bypass
@@ -45,10 +45,16 @@ Measured against the plan on 2026-09-26.
 - No PR or issue templates.
 - Cloudflare adds `Access-Control-Allow-Origin: *` to static files; harmless for a site with no private data, listed as an accepted risk in `SECURITY.md`.
 - securityheaders.com grade not checked yet (target A+); Lighthouse on the live URL not run yet.
+- Step 2 (hero screenshot) trades roughly 4-9 Lighthouse mobile performance points for a real
+  above-the-fold visual: measured 0.91-0.96 depending on run, against the project's `>= 95` bar.
+  Investigated in depth (see session log); no further fix found without dropping the image or its
+  eager/high-priority loading. Needs a decision: relax the threshold with this rationale recorded,
+  or drop the hero image.
 
 ## Next steps
 
-1. Push and review Step 2.
+1. Get the user's decision on the Step 2 trade-off above, then push (with a relaxed threshold) or
+   revert to the text-only hero.
 2. Then Steps 3-5 (in-page nav, footer, logo wordmark), one PR each.
 3. Remaining polish (PR/issue templates, securityheaders.com grade, live Lighthouse run) stays open, unrelated to the aesthetic pass.
 
@@ -56,6 +62,7 @@ Measured against the plan on 2026-09-26.
 
 Newest first. One line per completed step: date, what, commit.
 
+- 2026-09-28 — Ordering the image first on mobile did not help either (CI still ~0.93-0.94; the image genuinely painted earlier per the artifact, but timing barely moved). Switched to local Lighthouse (`npx lighthouse@12 --form-factor=mobile`; works despite the known Windows EPERM cleanup error, since the report is written before that fires) to iterate faster than CI round-trips. Isolated the cause with an A/B on the same machine, same run: pre-image hero scores 0.96 perf, 2.3s FCP/LCP. Any eager hero image -- tested a 24 KB and a purpose-sized 6.5 KB variant, with and without `<link rel="preload">`, with and without mobile reordering -- lands at 0.91-0.92 perf, ~2.8s FCP/LCP. Image weight, preload, and DOM/visual order made no measurable difference; `loading="lazy"` was worse (0.87, LCP 3.7s, still the LCP element once it arrived). Conclusion: under Lighthouse's simulated mobile network, any above-the-fold image costs roughly 400-500ms of FCP and LCP from the network round trip alone, near-independent of its size -- a simulated-latency floor, not an implementation inefficiency. Kept the best-measured variant (eager, `fetchPriority="high"`, 460w default + 922w 2x via `srcSet`, no preload link) since it is no worse than the alternatives tried, and added `scripts/resize-hero.mjs`. Not pushed: this is a real trade-off against the project's stated `Lighthouse >= 95` bar (README, CLAUDE.md), not a bug to keep chasing -- flagged to the user for a decision before opening the PR.
 - 2026-09-28 — Preload alone did not fix it (`/` regressed too, 0.92-0.93, `/it/` still 0.93). Diagnosed via the Lighthouse artifact: `prioritize-lcp-image` audit passed (preload worked), but Lighthouse's default mobile emulation collapses the hero to one column, so the image sits *after* the full text block (`boundingRect.top` ≈ 580px) — that's what delayed LCP, not resource discovery. Fix: `order-1 md:order-none` on the image, `order-2 md:order-none` on the text column, so the screenshot paints first on narrow viewports (desktop keeps text-left/image-right; DOM/reading order for assistive tech is unaffected, `order` is visual-only). Also hit one flaky axe failure (dark high contrast, wrong `--md-primary` value read — passed in isolation and on a full rerun, pre-existing test flakiness unrelated to this change, not investigated further here).
 - 2026-09-28 — PR #27 CI: `/it/` scored 0.93 performance, reproducibly (3/3 Lighthouse runs), LCP 2.7s vs the ~2.3s before the hero image. Unlike the Step 1 noise, this was a real regression: the new eager hero image had no early discovery hint. Fix: `<link rel="preload" as="image" fetchPriority="high">` for `dashboard.webp` in `root.tsx` links(), and dropped `decoding="async"` from the hero `<img>` (kept on the lazy gallery copy). React Router hoists the high-priority preload to the very top of `<head>`.
 - 2026-09-28 — Step 2: hero is now a two-column grid (`md:grid-cols-2`, container widened to max-w-5xl for this section only) — text left, `dashboard.webp` right, eager-loaded with `fetchPriority="high"` as the LCP candidate. New `hero_screenshot_alt` i18n key. New e2e test checks the hero image is visible, eager and fully loaded on both pages. 116 unit tests, 21 e2e tests pass. Visual check at 1500px: proper two-column hero, image in a bordered/shadowed frame.

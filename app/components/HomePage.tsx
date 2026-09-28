@@ -30,10 +30,7 @@ export function HomePage() {
             Wider than the max-w-3xl text sections below — it has a second column to hold. */}
         <div className="mx-auto max-w-5xl px-6 py-16">
           <div className="grid items-center gap-10 md:grid-cols-2">
-            {/* On narrow screens the grid collapses to one column: `order` puts the screenshot
-                first there (it's the fastest LCP candidate, and the strongest visual proof to
-                lead with on mobile too), while `md:order-none` restores text-left/image-right. */}
-            <div className="order-2 md:order-none">
+            <div>
               <h1 className="font-display text-4xl font-semibold">{t("hero_title")}</h1>
               <p className="mt-4 max-w-prose text-lg">{t("hero_tagline")}</p>
               <div className="mt-6">
@@ -45,16 +42,21 @@ export function HomePage() {
               </M3Card>
             </div>
             {/* The dashboard screenshot doubles as the LCP element: eager, high priority, no lazy
-                loading. Same file also appears (lazy) in ScreenshotsSection — one network fetch,
-                the browser cache serves the second <img>. */}
+                loading. It renders at roughly 460-470px in this layout at every breakpoint (one
+                grid column inside max-w-5xl), so the default src is a purpose-sized 460w variant
+                (scripts/resize-hero.mjs) and the full-size 922w one only loads for 2x/retina
+                screens — a quarter the bytes on an ordinary 1x mobile screen. The 922w file also
+                appears (lazy) in ScreenshotsSection, from the same URL, so its own fetch there is
+                unaffected by this. */}
             <img
-              src="/screenshots/dashboard.webp"
+              src="/screenshots/dashboard-460.webp"
+              srcSet="/screenshots/dashboard-460.webp 1x, /screenshots/dashboard.webp 2x"
               alt={t("hero_screenshot_alt")}
-              width={922}
-              height={441}
+              width={460}
+              height={220}
               loading="eager"
               fetchPriority="high"
-              className="order-1 w-full rounded-shape-md border border-outline-variant shadow-elevation-2 md:order-none"
+              className="w-full rounded-shape-md border border-outline-variant shadow-elevation-2"
             />
           </div>
         </div>
