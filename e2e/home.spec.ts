@@ -43,6 +43,14 @@ for (const page of PAGES) {
       await browserPage.keyboard.press("Enter");
       await expect(browserPage.locator("#main-content")).toBeFocused();
     });
+
+    test("shows the dashboard screenshot above the fold, eager-loaded", async ({ page: browserPage }) => {
+      await browserPage.goto(page.path);
+      const heroImage = browserPage.locator('main img[src="/screenshots/dashboard.webp"]').first();
+      await expect(heroImage).toBeVisible();
+      await expect(heroImage).toHaveJSProperty("loading", "eager");
+      await expect(heroImage).toHaveJSProperty("complete", true);
+    });
   });
 }
 

@@ -26,17 +26,35 @@ export function HomePage() {
         </div>
       </header>
       <main id={MAIN_CONTENT_ID} tabIndex={-1}>
-        {/* Hero: the only section not on the SectionBand grid, since it has no heading id to link to. */}
-        <div className="mx-auto max-w-3xl px-6 py-16">
-          <h1 className="font-display text-4xl font-semibold">{t("hero_title")}</h1>
-          <p className="mt-4 max-w-prose text-lg">{t("hero_tagline")}</p>
-          <div className="mt-6">
-            <M3ButtonLink href={`mailto:${CONTACT_EMAIL}`}>{t("hero_cta")}</M3ButtonLink>
+        {/* Hero: the only section not on the SectionBand grid, since it has no heading id to link to.
+            Wider than the max-w-3xl text sections below — it has a second column to hold. */}
+        <div className="mx-auto max-w-5xl px-6 py-16">
+          <div className="grid items-center gap-10 md:grid-cols-2">
+            <div>
+              <h1 className="font-display text-4xl font-semibold">{t("hero_title")}</h1>
+              <p className="mt-4 max-w-prose text-lg">{t("hero_tagline")}</p>
+              <div className="mt-6">
+                <M3ButtonLink href={`mailto:${CONTACT_EMAIL}`}>{t("hero_cta")}</M3ButtonLink>
+              </div>
+              <M3Card className="mt-8">
+                <M3StatusChip tone="partial">{t("status_in_progress")}</M3StatusChip>
+                <p className="mt-3">{t("status_under_construction")}</p>
+              </M3Card>
+            </div>
+            {/* The dashboard screenshot doubles as the LCP element: eager, high priority, no lazy
+                loading. Same file also appears (lazy) in ScreenshotsSection — one network fetch,
+                the browser cache serves the second <img>. */}
+            <img
+              src="/screenshots/dashboard.webp"
+              alt={t("hero_screenshot_alt")}
+              width={922}
+              height={441}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+              className="w-full rounded-shape-md border border-outline-variant shadow-elevation-2"
+            />
           </div>
-          <M3Card className="mt-8 max-w-prose">
-            <M3StatusChip tone="partial">{t("status_in_progress")}</M3StatusChip>
-            <p className="mt-3">{t("status_under_construction")}</p>
-          </M3Card>
         </div>
         {/* Full-width bands below, alternating tone for visual rhythm (SectionBand). */}
         <AboutSection tone="default" />
